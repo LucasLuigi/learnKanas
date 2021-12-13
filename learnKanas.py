@@ -1,3 +1,5 @@
+# -*-coding:Latin-1 -*
+
 import sys
 import random
 from PIL import Image
@@ -18,7 +20,7 @@ kanas = {
 }
 
 
-def randomFrToKana():
+def randomRomajiToKana():
     global KANASNUMBER
     global kanasList
 
@@ -70,11 +72,12 @@ def main():
 
     select1 = False
     while not select1:
-        print("# Select mode\n 1- Random FR->JP hiragana\n 2- Random FR->JP katakana\n")
+        print(
+            "# Select mode\n 1- Random Romaji->Hiragana\n 2- Random Romaji->Katakana\n")
         choice = input("> ")
         if choice == '1' or choice == '2':
             select1 = True
-            randomFrToKana()
+            randomRomajiToKana()
         else:
             print("Wrong choice\n")
 
