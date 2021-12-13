@@ -1,6 +1,8 @@
 import sys
+import random
 from PIL import Image
 
+KANASNUMBER = 46
 kanas = {
     "": ["a", "i", "u", "e", "o"],
     "K": ["ka", "ki", "ku", "ke", "ko"],
@@ -17,19 +19,43 @@ kanas = {
 
 
 def randomFrToKana():
-    print("\n")
+    global KANASNUMBER
+    global kanasList
+
+    select1 = False
+    score = 0
     while not select1:
-        print("# How many kanas for the game? (1-\n")
-        choice = input(">")
-        if choice == '1' or choice == '2':
-            select1 = True
-            randomFrToKana()
-        else:
-            print("Wrong choice\n")
+        print("# How many kanas for the game? (1-{})\n".format(KANASNUMBER))
+        try:
+            choice = int(input("> "))
+            if choice >= 1 and choice <= KANASNUMBER:
+                select1 = True
+
+                randKanasList = random.sample(kanasList, choice)
+                for game in range(0, choice):
+                    kana = randKanasList[game]
+                    input("#{}\n Draw {}".format(game+1, kana))
+                    image = Image.open("hiraganas/{}.png".format(kana))
+                    image.show()
+                    image.close
+                    point = input("Press 1 if it is correct, 0 otherwise: ")
+                    if point == '1':
+                        score += 1
+
+                # Score
+                print("\n Score: {}/{}, {}%".format(score, choice,
+                                                    100.0*score/choice))
+
+            else:
+                raise ValueError()
+        except ValueError as err:
+            print("Wrong choice (must be 1-{})\n".format(KANASNUMBER))
 
 
 def main():
     global kanasList
+
+    random.seed()
 
     # for line in kanas:
     #     for kana in kanas[line]:
@@ -45,7 +71,7 @@ def main():
     select1 = False
     while not select1:
         print("# Select mode\n 1- Random FR->JP hiragana\n 2- Random FR->JP katakana\n")
-        choice = input(">")
+        choice = input("> ")
         if choice == '1' or choice == '2':
             select1 = True
             randomFrToKana()
