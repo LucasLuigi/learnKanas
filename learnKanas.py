@@ -13,7 +13,7 @@ def main():
     global kanasList
 
     logging.basicConfig(level=logging.DEBUG,
-                        format='[%(levelname)s] (%(threadName)s) %(message)s')
+                        format='[%(levelname)s] %(message)s')
 
     logging.info('- learnKanas - \n')
 
@@ -22,10 +22,6 @@ def main():
             kanasList.append(kana)
 
     guiInst = Gui()
-    #gamesInst = Games()
-
-    # gamesThread = threading.Thread(target=gamesInst.job)
-    # gamesThread.start()
 
     # Tkinter only works in the main Thread
     guiInst.run()
