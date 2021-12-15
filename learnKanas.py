@@ -39,7 +39,7 @@ def randomRomajiToKana():
                     input("#{}\n Draw {}".format(game+1, kana))
                     image = Image.open("hiraganas/{}.png".format(kana))
                     image.show()
-                    image.close
+                    image.close()
                     point = input("Press 1 if it is correct, 0 otherwise: ")
                     if point == '1':
                         score += 1
