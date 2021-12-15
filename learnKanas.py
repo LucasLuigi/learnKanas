@@ -36,7 +36,7 @@ def randomRomajiToKana():
                 randKanasList = random.sample(kanasList, choice)
                 for game in range(0, choice):
                     kana = randKanasList[game]
-                    input("#{}\n Draw {}".format(game+1, kana))
+                    input("\n#{}\n Draw {}".format(game+1, kana))
                     image = Image.open("hiraganas/{}.png".format(kana))
                     image.show()
                     image.close()
