@@ -45,7 +45,7 @@ def randomRomajiToKana():
                         score += 1
 
                 # Score
-                print("\n Score: {}/{}, {}%".format(score, choice,
+                print("\n Score: {}/{}, {:.01f}%".format(score, choice,
                                                     100.0*score/choice))
 
             else:
