@@ -103,6 +103,7 @@ def randomRomajiToKana(alphabet, kanasSubsetIdx):
 
     select1 = False
     score = 0
+    incorrectKanas = []
     while not select1:
         print(
             f"# How many {kanasSubsetString} for the game? (1-{len(usedKanasList)})\n")
@@ -112,19 +113,26 @@ def randomRomajiToKana(alphabet, kanasSubsetIdx):
                 select1 = True
 
                 randKanasList = random.sample(usedKanasList, nbKanas)
+                print("For each step, please draw the Kana written, then press Enter.\nThen, Enter 1 if you drew correctly. Eventually, press Enter to continue to the next Kana.")
                 for idxKana in range(0, nbKanas):
                     kana = randKanasList[idxKana]
-                    input(f"\n#{idxKana+1}\n Draw {kana}")
+                    input(f"\n#{idxKana+1}\n {kana}")
                     image = Image.open("{}/{}.png".format(alphabet, kana))
                     image.show(title="Kana #{}".format(idxKana))
                     image.close()
-                    point = input("Press 1 if it is correct, 0 otherwise: ")
+                    point = input("Correct? ")
                     if point == '1':
                         score += 1
+                    else:
+                        incorrectKanas.append(kana)
 
                 # Score
                 print(
-                    f"\n Score: {score}/{nbKanas}, {(100.0*score/nbKanas):.01f}%")
+                    f"\n Score: {score}/{nbKanas}, {(100.0*score/nbKanas):.01f}%\n")
+                print("List of every incorrect Kanas:")
+                for incorrectKana in incorrectKanas:
+                    # TODO: improve this by writing the Japanese character?
+                    print(f" {incorrectKana}")
 
             else:
                 raise ValueError()
