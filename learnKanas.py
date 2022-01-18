@@ -4,49 +4,7 @@ import sys
 import random
 from PIL import Image
 
-ALPHABETS = ['Hiragana', 'Katakana', 'Kanji']
-
-# The order must match with the input of selectKanasSubset
-KANASSUBSETS = ["simple kanas", "Dakuon", "Handakuon", "combo kanas"]
-
-SIMPLEKANAS = {
-    "": ["a", "i", "u", "e", "o"],
-    "K": ["ka", "ki", "ku", "ke", "ko"],
-    "S": ["sa", "shi", "su", "se", "so"],
-    "T": ["ta", "chi", "tsu", "te", "to"],
-    "N": ["na", "ni", "nu", "ne", "no"],
-    "H": ["ha", "hi", "fu", "he", "ho"],
-    "M": ["ma", "mi", "mu", "me", "mo"],
-    "Y": ["ya", "yu", "yo"],
-    "R": ["ra", "ri", "ru", "re", "ro"],
-    "W": ["wa", "wo"],
-    "n": ["n"]
-}
-
-DAKUON = {
-    "G": ["ga", "gi", "gu", "ge", "go"],
-    "Z": ["za", "z_ji", "zu", "ze", "zo"],
-    "D": ["da", "d_ji", "ju", "de", "do"],
-    "B": ["ba", "bi", "bu", "be", "bo"]
-}
-
-HANDAKUON = {
-    "P": ["pa", "pi", "pu", "pe", "po"]
-}
-
-COMBOSKANAS = {
-    "K": ["kya", "kyu", "kyo"],
-    "G": ["gya", "gyu", "gyo"],
-    "S": ["sha", "shu", "sho"],
-    "J": ["ja", "ju", "jo"],
-    "C": ["cha", "chu", "cho"],
-    "N": ["nya", "nyu", "nyo"],
-    "H": ["hya", "hyu", "hyo"],
-    "B": ["bya", "byu", "byo"],
-    "P": ["pya", "pyu", "pyo"],
-    "M": ["mya", "myu", "myo"],
-    "R": ["rya", "ryu", "ryo"]
-}
+from kanas import ALPHABETS, KANAS_SUBSETS, SIMPLE_KANAS_ROMA, DAKUON_ROMA, HANDAKUON_ROMA, COMBOS_KANAS_ROMA
 
 
 def initListsFromKanasDicts():
@@ -57,30 +15,30 @@ def initListsFromKanasDicts():
     global everyKanasList
 
     simpleKanasList = []
-    for line in SIMPLEKANAS:
-        for kana in SIMPLEKANAS[line]:
+    for line in SIMPLE_KANAS_ROMA:
+        for kana in SIMPLE_KANAS_ROMA[line]:
             simpleKanasList.append(kana)
 
     dakuonList = []
-    for line in DAKUON:
-        for kana in DAKUON[line]:
+    for line in DAKUON_ROMA:
+        for kana in DAKUON_ROMA[line]:
             dakuonList.append(kana)
 
     handakuonList = []
-    for line in HANDAKUON:
-        for kana in HANDAKUON[line]:
+    for line in HANDAKUON_ROMA:
+        for kana in HANDAKUON_ROMA[line]:
             handakuonList.append(kana)
 
     combosKanasList = []
-    for line in COMBOSKANAS:
-        for kana in COMBOSKANAS[line]:
+    for line in COMBOS_KANAS_ROMA:
+        for kana in COMBOS_KANAS_ROMA[line]:
             combosKanasList.append(kana)
 
     everyKanasList = simpleKanasList+dakuonList+handakuonList+combosKanasList
 
 
 def randomRomajiToKana(alphabet, kanasSubsetIdx):
-    global KANASSUBSETS
+    global KANAS_SUBSETS
 
     global simpleKanasList
     global dakuonList
@@ -90,7 +48,7 @@ def randomRomajiToKana(alphabet, kanasSubsetIdx):
     # The order must match with the input of selectKanasSubset
     # KANASSUBSETS = ["simple", "Dakuon", "Handakuon", "combo"]
 
-    kanasSubsetString = KANASSUBSETS[kanasSubsetIdx-1]
+    kanasSubsetString = KANAS_SUBSETS[kanasSubsetIdx-1]
 
     if kanasSubsetIdx == 1:
         usedKanasList = simpleKanasList
