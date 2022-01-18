@@ -161,15 +161,15 @@ def randomRomajiToKana(alphabet, kanasSubsetIdx):
                     f"\nScore: {score}/{nbKanas}, {(100.0*score/nbKanas):.01f}%\n")
                 print("List of every incorrect Kanas:")
                 for incorrectKana in incorrectKanasRoma:
-                    # TODO: improve this by writing the Japanese character?
-                    print(f" {incorrectKana}")
+                    print(
+                        f" {incorrectKana:<4} - {usedKanasJapo[usedKanasRoma.index(incorrectKana)]:>2}")
 
             else:
                 raise ValueError()
         except ValueError as err:
             print(f"Wrong choice (must be 1-{len(usedKanasRoma)})\n")
         except FileNotFoundError as err:
-            print(f"WILL BE SOLVED SOON: missing image files: {err}\n")
+            print(f"SHOULD BE SOLVED SOON: missing image files: {err}\n")
 
 
 def selectKanasSubset(alphabet):
@@ -216,5 +216,5 @@ def main():
 
 
 if __name__ == '__main__':
-    print('- learnKanas - \n\n> Run chcp 936 or chcp 932 before running learnKanas to display kanas <\n')
+    print('- learnKanas - \n\nようこそ！\n\nIf the sentence above was only blank squares instead of Japanese Hiragana, something is wrong with your terminal.\nRun chcp 936 (or chcp 932) before launching learnKanas again\n')
     main()
