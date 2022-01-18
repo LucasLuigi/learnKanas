@@ -1,101 +1,173 @@
-# -*-coding:Latin-1 -*
+# -*-coding:utf-8 -*
 
+# set PYTHONIOENCODING=UTF-8 - useless
+# chcp 936
+
+import logging
 import sys
 import random
 from PIL import Image
 
-from kanas import ALPHABETS, KANAS_SUBSETS, SIMPLE_KANAS_ROMA, DAKUON_ROMA, HANDAKUON_ROMA, COMBOS_KANAS_ROMA
+from kanas import ALPHABETS, KANAS_SUBSETS
+from kanas import SIMPLE_KANAS_ROMA, DAKUON_ROMA, HANDAKUON_ROMA, COMBOS_KANAS_ROMA
+from kanas import SIMPLE_KANAS_HIRA, DAKUON_HIRA, HANDAKUON_HIRA, COMBOS_KANAS_HIRA
+
+# True to display Kanas in the CLI, False to open a picture of it
+kanasDisplayedExternally = False
 
 
 def initListsFromKanasDicts():
-    global simpleKanasList
-    global dakuonList
-    global handakuonList
-    global combosKanasList
-    global everyKanasList
+    global rootKanasRoma
+    global rootKanasHira
+    global rootKanasKata
 
-    simpleKanasList = []
+    global simpleKanasRoma
+    global simpleKanasHira
+    global dakuonRoma
+    global dakuonHira
+    global handakuonRoma
+    global handakuonHira
+    global combosKanasRoma
+    global combosKanasHira
+    global everyKanasRoma
+    global everyKanasHira
+
+    # Flattening each multi-level constant kanas lists
+
+    # Simple Kanas
+    simpleKanasRoma = []
     for line in SIMPLE_KANAS_ROMA:
         for kana in SIMPLE_KANAS_ROMA[line]:
-            simpleKanasList.append(kana)
+            simpleKanasRoma.append(kana)
 
-    dakuonList = []
+    simpleKanasHira = []
+    for line in SIMPLE_KANAS_HIRA:
+        for kana in SIMPLE_KANAS_HIRA[line]:
+            simpleKanasHira.append(kana)
+
+    simpleKanasKata = []
+
+    # Dakuon ゛
+    dakuonRoma = []
     for line in DAKUON_ROMA:
         for kana in DAKUON_ROMA[line]:
-            dakuonList.append(kana)
+            dakuonRoma.append(kana)
 
-    handakuonList = []
+    dakuonHira = []
+    for line in DAKUON_HIRA:
+        for kana in DAKUON_HIRA[line]:
+            dakuonHira.append(kana)
+
+    dakuonKata = []
+
+    # Handakuon ゜
+    handakuonRoma = []
     for line in HANDAKUON_ROMA:
         for kana in HANDAKUON_ROMA[line]:
-            handakuonList.append(kana)
+            handakuonRoma.append(kana)
 
-    combosKanasList = []
+    handakuonHira = []
+    for line in HANDAKUON_HIRA:
+        for kana in HANDAKUON_HIRA[line]:
+            handakuonHira.append(kana)
+
+    handakuonKata = []
+
+    # Combos Kanas
+    combosKanasRoma = []
     for line in COMBOS_KANAS_ROMA:
         for kana in COMBOS_KANAS_ROMA[line]:
-            combosKanasList.append(kana)
+            combosKanasRoma.append(kana)
 
-    everyKanasList = simpleKanasList+dakuonList+handakuonList+combosKanasList
+    combosKanasHira = []
+    for line in COMBOS_KANAS_HIRA:
+        for kana in COMBOS_KANAS_HIRA[line]:
+            combosKanasHira.append(kana)
+
+    combosKanasKata = []
+
+    # Every Kanas (combining every previous ones)
+    everyKanasRoma = simpleKanasRoma + dakuonRoma + handakuonRoma + combosKanasRoma
+    everyKanasHira = simpleKanasHira + dakuonHira + handakuonHira + combosKanasHira
+    everyKanasKata = simpleKanasKata + dakuonKata + handakuonKata + combosKanasKata
+
+    # List of lists
+    rootKanasRoma = [simpleKanasRoma, dakuonRoma,
+                     handakuonRoma, combosKanasRoma, everyKanasRoma]
+    rootKanasHira = [simpleKanasHira, dakuonHira,
+                     handakuonHira, combosKanasHira, everyKanasHira]
+    rootKanasKata = [simpleKanasKata, dakuonKata,
+                     handakuonKata, combosKanasKata, everyKanasKata]
 
 
 def randomRomajiToKana(alphabet, kanasSubsetIdx):
     global KANAS_SUBSETS
 
-    global simpleKanasList
-    global dakuonList
-    global handakuonList
-    global combosKanasList
+    global kanasDisplayedExternally
 
-    # The order must match with the input of selectKanasSubset
-    # KANASSUBSETS = ["simple", "Dakuon", "Handakuon", "combo"]
+    global rootKanasRoma
+    global rootKanasHira
+    global rootKanasKata
 
+    try:
+        # kanasSubsetIdx start with 1, as 0 is the exit input in the menu
+        usedKanasRoma = rootKanasRoma[kanasSubsetIdx-1]
+        if alphabet == 'Hiragana':
+            usedKanasJapo = rootKanasHira[kanasSubsetIdx-1]
+        elif alphabet == 'Katakana':
+            usedKanasJapo = rootKanasKata[kanasSubsetIdx-1]
+        else:
+            logging.error(
+                f"[X] randomRomajiToKana: alphabet {alphabet} not recognized")
+            return -1
+    except IndexError as err:
+        logging.error(
+            f"[X] randomRomajiToKana: kanasSubsetIdx {kanasSubsetIdx} out of rootKanasRoma's range\n{err}")
+        return -1
+
+     # The order must match the input of selectKanasSubset
     kanasSubsetString = KANAS_SUBSETS[kanasSubsetIdx-1]
-
-    if kanasSubsetIdx == 1:
-        usedKanasList = simpleKanasList
-    elif kanasSubsetIdx == 2:
-        usedKanasList = dakuonList
-    elif kanasSubsetIdx == 3:
-        usedKanasList = handakuonList
-    elif kanasSubsetIdx == 4:
-        usedKanasList = combosKanasList
 
     select1 = False
     score = 0
-    incorrectKanas = []
+    incorrectKanasRoma = []
     while not select1:
         print(
-            f"# How many {kanasSubsetString} for the game? (1-{len(usedKanasList)})\n")
+            f"# How many {kanasSubsetString} for the game? (1-{len(usedKanasRoma)})\n")
         try:
             nbKanas = int(input("> "))
-            if nbKanas >= 1 and nbKanas <= len(usedKanasList):
+            if nbKanas >= 1 and nbKanas <= len(usedKanasRoma):
                 select1 = True
 
-                randKanasList = random.sample(usedKanasList, nbKanas)
-                print("For each step, please draw the Kana written, then press Enter.\nThen, Enter 1 if you drew correctly. Eventually, press Enter to continue to the next Kana.")
-                for idxKana in range(0, nbKanas):
-                    kana = randKanasList[idxKana]
-                    input(f"\n#{idxKana+1}\n {kana}")
-                    image = Image.open("{}/{}.png".format(alphabet, kana))
-                    image.show(title="Kana #{}".format(idxKana))
-                    image.close()
+                randKanasRoma = random.sample(usedKanasRoma, nbKanas)
+                print("For each step, please draw the written Kana, then press Enter.\nThen, Enter 1 if you drew correctly. Eventually, press Enter to continue to the next Kana.")
+                for idxExercise in range(0, nbKanas):
+                    kanaRoma = randKanasRoma[idxExercise]
+                    input(f"\n#{idxExercise+1}\n {kanaRoma}")
+                    if kanasDisplayedExternally:
+                        with Image.open(f"{alphabet}/{kanaRoma}.png") as im:
+                            im.show(title=f"Kana #{idxExercise}")
+                    else:
+                        kanaJapo = usedKanasJapo[usedKanasRoma.index(kanaRoma)]
+                        print(f" {kanaJapo}")
                     point = input("Correct? ")
                     if point == '1':
                         score += 1
                     else:
-                        incorrectKanas.append(kana)
+                        incorrectKanasRoma.append(kanaRoma)
 
                 # Score
                 print(
-                    f"\n Score: {score}/{nbKanas}, {(100.0*score/nbKanas):.01f}%\n")
+                    f"\nScore: {score}/{nbKanas}, {(100.0*score/nbKanas):.01f}%\n")
                 print("List of every incorrect Kanas:")
-                for incorrectKana in incorrectKanas:
+                for incorrectKana in incorrectKanasRoma:
                     # TODO: improve this by writing the Japanese character?
                     print(f" {incorrectKana}")
 
             else:
                 raise ValueError()
         except ValueError as err:
-            print(f"Wrong choice (must be 1-{len(usedKanasList)})\n")
+            print(f"Wrong choice (must be 1-{len(usedKanasRoma)})\n")
         except FileNotFoundError as err:
             print(f"WILL BE SOLVED SOON: missing image files: {err}\n")
 
@@ -104,11 +176,11 @@ def selectKanasSubset(alphabet):
     selected = False
     while not selected:
         print(
-            f"# Which {alphabet} do you want to write?\n 1- Simple {alphabet}\n 2- Dakuon\n 3- Handakuon\n 4- Combo {alphabet}\n 0- Return\n")
+            f"# Which {alphabet} do you want to write?\n 1- Simple {alphabet}\n 2- Dakuon\n 3- Handakuon\n 4- Combo {alphabet}\n 5- Every Kanas\n 0- Return\n")
         choice2 = input("> ")
         selected = True
 
-        if choice2 == '1' or choice2 == '2' or choice2 == '3' or choice2 == '4':
+        if choice2 >= '1' and choice2 <= '5':
             randomRomajiToKana(alphabet, int(choice2))
         elif choice2 == '0':
             return 0
@@ -118,6 +190,9 @@ def selectKanasSubset(alphabet):
 
 
 def main():
+    logger = logging.getLogger()
+    logger.setLevel('DEBUG')
+
     random.seed()
 
     initListsFromKanasDicts()
@@ -141,5 +216,5 @@ def main():
 
 
 if __name__ == '__main__':
-    print('- learnKanas - \n')
+    print('- learnKanas - \n\n> Run chcp 936 or chcp 932 before running learnKanas to display kanas <\n')
     main()

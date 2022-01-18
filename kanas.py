@@ -1,9 +1,10 @@
-# -*-coding:Latin-1 -*
+# -*-coding:utf-8 -*
 
 ALPHABETS = ['Hiragana', 'Katakana', 'Kanji']
 
 # The order must match with the input of selectKanasSubset
-KANAS_SUBSETS = ["simple kanas", "Dakuon", "Handakuon", "combo kanas"]
+KANAS_SUBSETS = ["simple Kanas", "Dakuon",
+                 "Handakuon", "combo Kanas", "Kanas"]
 
 SIMPLE_KANAS_ROMA = {
     "": ["a", "i", "u", "e", "o"],
