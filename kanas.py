@@ -37,7 +37,7 @@ SIMPLE_KANAS_HIRA = {
 DAKUON_ROMA = {
     "G": ["ga", "gi", "gu", "ge", "go"],
     "Z": ["za", "z_ji", "zu", "ze", "zo"],
-    "D": ["da", "d_ji", "ju", "de", "do"],
+    "D": ["da", "d_ji", "d_ju", "de", "do"],
     "B": ["ba", "bi", "bu", "be", "bo"]
 }
 
