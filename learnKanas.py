@@ -6,7 +6,7 @@
 import logging
 import sys
 import random
-from PIL import Image
+#from PIL import Image
 
 from kanas import ALPHABETS, KANAS_SUBSETS
 from kanas import SIMPLE_KANAS_ROMA, DAKUON_ROMA, HANDAKUON_ROMA, COMBOS_KANAS_ROMA
@@ -113,9 +113,9 @@ def randomRomajiToKana(alphabet, kanasSubsetIdx):
         # kanasSubsetIdx start with 1, as 0 is the exit input in the menu
         usedKanasRoma = rootKanasRoma[kanasSubsetIdx-1]
         if alphabet == 'Hiragana':
-            usedKanasJapo = rootKanasHira[kanasSubsetIdx-1]
+            usedKanasJapa = rootKanasHira[kanasSubsetIdx-1]
         elif alphabet == 'Katakana':
-            usedKanasJapo = rootKanasKata[kanasSubsetIdx-1]
+            usedKanasJapa = rootKanasKata[kanasSubsetIdx-1]
         else:
             logging.error(
                 f"[X] randomRomajiToKana: alphabet {alphabet} not recognized")
@@ -130,39 +130,125 @@ def randomRomajiToKana(alphabet, kanasSubsetIdx):
 
     select1 = False
     score = 0
-    incorrectKanasRoma = []
+    incorrectKanasRoma = [None] * len(usedKanasRoma)
     while not select1:
         print(
-            f"# How many {kanasSubsetString} for the game? (1-{len(usedKanasRoma)})\n")
+            f"# How many {kanasSubsetString} for the game? (1-{len(usedKanasRoma)}, enter 0 for all)\n")
         try:
             nbKanas = int(input("> "))
+            # 0 : select every kanas
+            if nbKanas == 0:
+                nbKanas = len(usedKanasRoma)
             if nbKanas >= 1 and nbKanas <= len(usedKanasRoma):
                 select1 = True
 
                 randKanasRoma = random.sample(usedKanasRoma, nbKanas)
-                print("For each step, please draw the written Kana, then press Enter.\nThen, Enter 1 if you drew correctly. Eventually, press Enter to continue to the next Kana.")
+                print("- IMPORTANT -\n- SCORE     -\n\nFor each step, please draw the written Kana on a sheet besides, then press Enter.\nThen, Enter 1 if you drew correctly. Eventually, press Enter to continue to the next Kana.")
                 for idxExercise in range(0, nbKanas):
                     kanaRoma = randKanasRoma[idxExercise]
-                    input(f"\n#{idxExercise+1}\n {kanaRoma}")
+                    input(
+                        f"\n#{idxExercise+1}/{nbKanas}\n {kanaRoma}")
                     if kanasDisplayedExternally:
-                        with Image.open(f"{alphabet}/{kanaRoma}.png") as im:
-                            im.show(title=f"Kana #{idxExercise}")
+                        # with Image.open(f"{alphabet}/{kanaRoma}.png") as im:
+                        #     im.show(title=f"Kana #{idxExercise}")
+                        logging.error("[X] Image displaying deactivated.")
+                        sys.exit(-1)
                     else:
-                        kanaJapo = usedKanasJapo[usedKanasRoma.index(kanaRoma)]
-                        print(f" {kanaJapo}")
+                        kanaJapa = usedKanasJapa[usedKanasRoma.index(kanaRoma)]
+                        print(f" {kanaJapa}")
                     point = input("Correct? ")
                     if point == '1':
                         score += 1
                     else:
-                        incorrectKanasRoma.append(kanaRoma)
+                        incorrectKanasRoma[usedKanasRoma.index(
+                            kanaRoma)] = kanaRoma
 
                 # Score
                 print(
                     f"\nScore: {score}/{nbKanas}, {(100.0*score/nbKanas):.01f}%\n")
+
                 print("List of every incorrect Kanas:")
-                for incorrectKana in incorrectKanasRoma:
+                # Using List comprehension to remove none values
+                incorrectKanasRomaCompacted = [
+                    elem for elem in incorrectKanasRoma if elem is not None]
+                for incorrectKana in incorrectKanasRomaCompacted:
                     print(
-                        f" {incorrectKana:<4} - {usedKanasJapo[usedKanasRoma.index(incorrectKana)]:>2}")
+                        f" {incorrectKana:<4} - {usedKanasJapa[usedKanasRoma.index(incorrectKana)]:>2}")
+
+            else:
+                raise ValueError()
+        except ValueError as err:
+            print(f"Wrong choice (must be 1-{len(usedKanasRoma)})\n")
+        except FileNotFoundError as err:
+            print(f"SHOULD BE SOLVED SOON: missing image files: {err}\n")
+
+
+def randomKanaToRomaji(alphabet, kanasSubsetIdx):
+    global KANAS_SUBSETS
+
+    global rootKanasRoma
+    global rootKanasHira
+    global rootKanasKata
+
+    try:
+        # kanasSubsetIdx start with 1, as 0 is the exit input in the menu
+        usedKanasRoma = rootKanasRoma[kanasSubsetIdx-1]
+        if alphabet == 'Hiragana':
+            usedKanasJapa = rootKanasHira[kanasSubsetIdx-1]
+        elif alphabet == 'Katakana':
+            usedKanasJapa = rootKanasKata[kanasSubsetIdx-1]
+        else:
+            logging.error(
+                f"[X] randomRomajiToKana: alphabet {alphabet} not recognized")
+            return -1
+    except IndexError as err:
+        logging.error(
+            f"[X] randomRomajiToKana: kanasSubsetIdx {kanasSubsetIdx} out of rootKanasRoma's range\n{err}")
+        return -1
+
+     # The order must match the input of selectKanasSubset
+    kanasSubsetString = KANAS_SUBSETS[kanasSubsetIdx-1]
+
+    select1 = False
+    score = 0
+    incorrectKanasRoma = [None] * len(usedKanasRoma)
+    while not select1:
+        print(
+            f"# How many {kanasSubsetString} for the game? (1-{len(usedKanasRoma)}, enter 0 for all)\n")
+        try:
+            nbKanas = int(input("> "))
+            # 0 : select every kanas
+            if nbKanas == 0:
+                nbKanas = len(usedKanasRoma)
+            if nbKanas >= 1 and nbKanas <= len(usedKanasRoma):
+                select1 = True
+
+                randKanasRoma = random.sample(usedKanasRoma, nbKanas)
+                print("- IMPORTANT -\n- SCORE     -\n\nFor each step, please draw the written Kana on a sheet besides, then press Enter.\nThen, Enter 1 if you drew correctly. Eventually, press Enter to continue to the next Kana.")
+                for idxExercise in range(0, nbKanas):
+                    kanaRoma = randKanasRoma[idxExercise]
+                    input(
+                        f"\n#{idxExercise+1}/{nbKanas}\n {kanaRoma}")
+                    kanaJapa = usedKanasJapa[usedKanasRoma.index(kanaRoma)]
+                    print(f" {kanaJapa}")
+                    point = input("Correct? ")
+                    if point == '1':
+                        score += 1
+                    else:
+                        incorrectKanasRoma[usedKanasRoma.index(
+                            kanaRoma)] = kanaRoma
+
+                # Score
+                print(
+                    f"\nScore: {score}/{nbKanas}, {(100.0*score/nbKanas):.01f}%\n")
+
+                print("List of every incorrect Kanas:")
+                # Using List comprehension to remove none values
+                incorrectKanasRomaCompacted = [
+                    elem for elem in incorrectKanasRoma if elem is not None]
+                for incorrectKana in incorrectKanasRomaCompacted:
+                    print(
+                        f" {incorrectKana:<4} - {usedKanasJapa[usedKanasRoma.index(incorrectKana)]:>2}")
 
             else:
                 raise ValueError()
@@ -183,10 +269,11 @@ def selectKanasSubset(alphabet):
         if choice2 >= '1' and choice2 <= '5':
             randomRomajiToKana(alphabet, int(choice2))
         elif choice2 == '0':
-            return 0
+            return False
         else:
             selected = False
             print("Wrong choice\n")
+    return True
 
 
 def main():
@@ -205,9 +292,9 @@ def main():
         selected = True
 
         if choice1 == '1':
-            selectKanasSubset(alphabet='Hiragana')
+            selected = selectKanasSubset(alphabet='Hiragana')
         elif choice1 == '2':
-            selectKanasSubset(alphabet='Katakana')
+            selected = selectKanasSubset(alphabet='Katakana')
         elif choice1 == '0':
             sys.exit(0)
         else:
@@ -216,5 +303,5 @@ def main():
 
 
 if __name__ == '__main__':
-    print('- learnKanas - \n\nようこそ！\n\nIf the sentence above was only blank squares instead of Japanese Hiragana, something is wrong with your terminal.\nRun chcp 936 (or chcp 932) before launching learnKanas again\n')
+    print('- learnKanas - \n\nようこそ！\n\nIf the sentence above is only blank squares instead of Japanese Hiragana, something is wrong with your terminal.\nOn Windows run chcp 936 (or chcp 932) before launching learnKanas again\n')
     main()
