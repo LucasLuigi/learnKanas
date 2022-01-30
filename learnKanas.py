@@ -1,19 +1,12 @@
 # -*-coding:utf-8 -*
 
-# set PYTHONIOENCODING=UTF-8 - useless
-# chcp 936
-
 import logging
 import sys
 import random
-#from PIL import Image
 
 from kanas import ALPHABETS, KANAS_SUBSETS
 from kanas import SIMPLE_KANAS_ROMA, DAKUON_ROMA, HANDAKUON_ROMA, COMBOS_KANAS_ROMA
 from kanas import SIMPLE_KANAS_HIRA, DAKUON_HIRA, HANDAKUON_HIRA, COMBOS_KANAS_HIRA
-
-# True to display Kanas in the CLI, False to open a picture of it
-kanasDisplayedExternally = False
 
 
 def initListsFromKanasDicts():
@@ -103,8 +96,6 @@ def initListsFromKanasDicts():
 def randomRomajiToKana(alphabet, kanasSubsetIdx):
     global KANAS_SUBSETS
 
-    global kanasDisplayedExternally
-
     global rootKanasRoma
     global rootKanasHira
     global rootKanasKata
@@ -148,14 +139,8 @@ def randomRomajiToKana(alphabet, kanasSubsetIdx):
                     kanaRoma = randKanasRoma[idxExercise]
                     input(
                         f"\n#{idxExercise+1}/{nbKanas}\n {kanaRoma}")
-                    if kanasDisplayedExternally:
-                        # with Image.open(f"{alphabet}/{kanaRoma}.png") as im:
-                        #     im.show(title=f"Kana #{idxExercise}")
-                        logging.error("[X] Image displaying deactivated.")
-                        sys.exit(-1)
-                    else:
-                        kanaJapa = usedKanasJapa[usedKanasRoma.index(kanaRoma)]
-                        print(f" {kanaJapa}")
+                    kanaJapa = usedKanasJapa[usedKanasRoma.index(kanaRoma)]
+                    print(f" {kanaJapa}")
                     point = input("Correct? ")
                     if point == '1':
                         score += 1
@@ -179,8 +164,6 @@ def randomRomajiToKana(alphabet, kanasSubsetIdx):
                 raise ValueError()
         except ValueError as err:
             print(f"Wrong choice (must be 1-{len(usedKanasRoma)})\n")
-        except FileNotFoundError as err:
-            print(f"SHOULD BE SOLVED SOON: missing image files: {err}\n")
 
 
 def randomKanaToRomaji(alphabet, kanasSubsetIdx):
