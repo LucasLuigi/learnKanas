@@ -212,7 +212,7 @@ def randomKanaToRomaji(alphabet, kanasSubsetIdx):
                 for idxExercise in range(0, nbKanas):
                     kanaJapa = randKanasJapa[idxExercise]
                     inputKanaRoma = input(
-                        f"\n#{idxExercise+1}/{nbKanas}\n {kanaJapa}\n ")
+                        f"\n#{idxExercise+1}/{nbKanas}\n {kanaJapa}\n ").lower()
                     correctKanaRoma = usedKanasRoma[usedKanasJapa.index(
                         kanaJapa)]
 

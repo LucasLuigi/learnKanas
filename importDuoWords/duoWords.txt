@@ -1,0 +1,119 @@
+1 いち
+2 に
+3 さん
+4 よん
+6 ろく
+7 なな
+7 しち
+8 はち
+9 きゅう
+10000 まん
+Rouge あか
+Blanc しろ(い)
+Bleu あお
+Couleur いろ
+Vache うし
+Lion しし
+Oiseau とり
+Chat ねこ
+Chien いぬ
+Ours くま
+Singe さる
+Insecte むし
+Pigeon はと
+Humain にんげん
+Printemps はる
+Été なつ
+Hiver ふゆ
+Matin あさ
+Jour ひる
+Nuit よる
+Demain あした
+Aujourd'hui きょう
+Bonjour こんにちは
+Au revoir さようなら
+Bon matin おはよう
+Merci ありがとう
+Merci (formel) ありがとうございます
+Merci どうも
+Merci beaucoup どうもありがとう
+Merci beaucoup (formel) どうもありがとうございます
+Sushi すし
+Légume やさい
+Teriyaki てりやき
+Fruit くだもの
+Miso (pâte fermentée de soja) みそ
+Tempura (friture) てんぷら
+Natto (graines de soja fermentées) なっとう
+Épicé からい
+Mochi (gâteau de riz gluant) もち
+Viande にく
+Œuf たまご
+Baguettes はし
+Bento (boîte à repas) べんとう
+Alcool おさけ
+Thé おちゃ
+Boisson のみもの
+Parapluie かさ
+Chaise いす
+Papier かみ
+Carte ちず
+Assiette さら
+Téléphone でんわ
+Sac かばん
+Crayon えんぴつ
+Ticket きっぷ
+Chaussures くつ
+Plume はね
+Porte-feuille さいふ
+Livre ほん
+Fil ひも
+Clé かぎ
+Lunettes めがね
+Porter (un vêtement) きる
+Lire よむ
+Boire のむ
+Vouloir ほしい
+Briller ひかる
+Sale きたない
+Doux あまい
+Mince うすい
+Jeune わかい
+Proche ちかい
+Cher たかい
+Qui démange/gratte かゆい
+Étrange へん
+Calme しずか
+Animé げんき
+Ensoleillé はれ
+Nuage くも
+Nuageux くもり
+Neige ゆき
+Vent かぜ
+Saison de la pluie つゆ
+Dos せたか
+Œil め
+Oreille みみ
+Visage かお
+Bouche くち
+Barbe ひげ
+Ouest にし
+Mer うみ
+Dehors そと
+Rivière かわ
+Lune つき
+Cascade たき
+Gare えき
+Terre (sol) つち
+Temple てら
+École がっこう
+Ciel そら
+Île しま
+Monde せかい
+Pays くに
+Étang いけ
+Marais ぬま
+Montagne やま
+Japonais にほんご
+Fuji ふじ
+Ici ここ
