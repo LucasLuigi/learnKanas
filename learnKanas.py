@@ -184,7 +184,7 @@ def selectKanasSubset(alphabet, way):
 
 def main():
     logger = logging.getLogger()
-    logger.setLevel('DEBUG')
+    logger.setLevel('INFO')
 
     random.seed()
 
