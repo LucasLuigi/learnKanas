@@ -190,6 +190,7 @@ def main():
 
     kanas.initFlattenedKanas()
     words.initWords()
+
     selected = False
 
     while not selected:
