@@ -4,109 +4,18 @@ import logging
 import sys
 import random
 
-from kanas import ALPHABETS, KANAS_SUBSETS
-from kanas import SIMPLE_KANAS_ROMA, DAKUON_ROMA, HANDAKUON_ROMA, COMBOS_KANAS_ROMA
-from kanas import SIMPLE_KANAS_HIRA, DAKUON_HIRA, HANDAKUON_HIRA, COMBOS_KANAS_HIRA
-
-
-def initListsFromKanasDicts():
-    global rootKanasRoma
-    global rootKanasHira
-    global rootKanasKata
-
-    global simpleKanasRoma
-    global simpleKanasHira
-    global dakuonRoma
-    global dakuonHira
-    global handakuonRoma
-    global handakuonHira
-    global combosKanasRoma
-    global combosKanasHira
-    global everyKanasRoma
-    global everyKanasHira
-
-    # Flattening each multi-level constant kanas lists
-
-    # Simple Kanas
-    simpleKanasRoma = []
-    for line in SIMPLE_KANAS_ROMA:
-        for kana in SIMPLE_KANAS_ROMA[line]:
-            simpleKanasRoma.append(kana)
-
-    simpleKanasHira = []
-    for line in SIMPLE_KANAS_HIRA:
-        for kana in SIMPLE_KANAS_HIRA[line]:
-            simpleKanasHira.append(kana)
-
-    simpleKanasKata = []
-
-    # Dakuon ゛
-    dakuonRoma = []
-    for line in DAKUON_ROMA:
-        for kana in DAKUON_ROMA[line]:
-            dakuonRoma.append(kana)
-
-    dakuonHira = []
-    for line in DAKUON_HIRA:
-        for kana in DAKUON_HIRA[line]:
-            dakuonHira.append(kana)
-
-    dakuonKata = []
-
-    # Handakuon ゜
-    handakuonRoma = []
-    for line in HANDAKUON_ROMA:
-        for kana in HANDAKUON_ROMA[line]:
-            handakuonRoma.append(kana)
-
-    handakuonHira = []
-    for line in HANDAKUON_HIRA:
-        for kana in HANDAKUON_HIRA[line]:
-            handakuonHira.append(kana)
-
-    handakuonKata = []
-
-    # Combos Kanas
-    combosKanasRoma = []
-    for line in COMBOS_KANAS_ROMA:
-        for kana in COMBOS_KANAS_ROMA[line]:
-            combosKanasRoma.append(kana)
-
-    combosKanasHira = []
-    for line in COMBOS_KANAS_HIRA:
-        for kana in COMBOS_KANAS_HIRA[line]:
-            combosKanasHira.append(kana)
-
-    combosKanasKata = []
-
-    # Every Kanas (combining every previous ones)
-    everyKanasRoma = simpleKanasRoma + dakuonRoma + handakuonRoma + combosKanasRoma
-    everyKanasHira = simpleKanasHira + dakuonHira + handakuonHira + combosKanasHira
-    everyKanasKata = simpleKanasKata + dakuonKata + handakuonKata + combosKanasKata
-
-    # List of lists
-    rootKanasRoma = [simpleKanasRoma, dakuonRoma,
-                     handakuonRoma, combosKanasRoma, everyKanasRoma]
-    rootKanasHira = [simpleKanasHira, dakuonHira,
-                     handakuonHira, combosKanasHira, everyKanasHira]
-    rootKanasKata = [simpleKanasKata, dakuonKata,
-                     handakuonKata, combosKanasKata, everyKanasKata]
+import kanas
+import words
 
 
 def randomRomajiToKana(alphabet, kanasSubsetIdx):
-    global KANAS_SUBSETS
-
-    global rootKanasRoma
-    global rootKanasHira
-    global rootKanasKata
-
     try:
         # kanasSubsetIdx start with 1, as 0 is the exit input in the menu
-        usedKanasRoma = rootKanasRoma[kanasSubsetIdx-1]
+        usedKanasRoma = kanas.rootKanasRoma[kanasSubsetIdx-1]
         if alphabet == 'Hiragana':
-            usedKanasJapa = rootKanasHira[kanasSubsetIdx-1]
+            usedKanasJapa = kanas.rootKanasHira[kanasSubsetIdx-1]
         elif alphabet == 'Katakana':
-            usedKanasJapa = rootKanasKata[kanasSubsetIdx-1]
+            usedKanasJapa = kanas.rootKanasKata[kanasSubsetIdx-1]
         else:
             logging.error(
                 f"[X] randomRomajiToKana: alphabet {alphabet} not recognized")
@@ -117,7 +26,7 @@ def randomRomajiToKana(alphabet, kanasSubsetIdx):
         return -1
 
      # The order must match the input of selectKanasSubset
-    kanasSubsetString = KANAS_SUBSETS[kanasSubsetIdx-1]
+    kanasSubsetString = kanas.KANAS_SUBSETS[kanasSubsetIdx-1]
 
     select1 = False
     score = 0
@@ -167,19 +76,13 @@ def randomRomajiToKana(alphabet, kanasSubsetIdx):
 
 
 def randomKanaToRomaji(alphabet, kanasSubsetIdx):
-    global KANAS_SUBSETS
-
-    global rootKanasRoma
-    global rootKanasHira
-    global rootKanasKata
-
     try:
         # kanasSubsetIdx start with 1, as 0 is the exit input in the menu
-        usedKanasRoma = rootKanasRoma[kanasSubsetIdx-1]
+        usedKanasRoma = kanas.rootKanasRoma[kanasSubsetIdx-1]
         if alphabet == 'Hiragana':
-            usedKanasJapa = rootKanasHira[kanasSubsetIdx-1]
+            usedKanasJapa = kanas.rootKanasHira[kanasSubsetIdx-1]
         elif alphabet == 'Katakana':
-            usedKanasJapa = rootKanasKata[kanasSubsetIdx-1]
+            usedKanasJapa = kanas.rootKanasKata[kanasSubsetIdx-1]
         else:
             logging.error(
                 f"[X] randomRomajiToKana: alphabet {alphabet} not recognized")
@@ -190,7 +93,7 @@ def randomKanaToRomaji(alphabet, kanasSubsetIdx):
         return -1
 
      # The order must match the input of selectKanasSubset
-    kanasSubsetString = KANAS_SUBSETS[kanasSubsetIdx-1]
+    kanasSubsetString = kanas.KANAS_SUBSETS[kanasSubsetIdx-1]
 
     select1 = False
     score = 0
@@ -248,13 +151,12 @@ def randomKanaToRomaji(alphabet, kanasSubsetIdx):
 # alphabet: a string to select the Japanese alphabet (must match ALPHABETS)
 # way: 0 for Romaji to Kana, 1 for Kana to Romajo
 def selectKanasSubset(alphabet, way):
-    global ALPHABETS
     # way = 0: write Kanas
     # way = 1: guess Kanas
     possibleActions = ['write', 'guess']
 
     selected = False
-    if alphabet not in ALPHABETS or way < 0 or way > 1:
+    if alphabet not in kanas.ALPHABETS or way < 0 or way > 1:
         logging.error(f"selectKanasSubset: wrong options {alphabet} or {way}")
         sys.exit(-1)
 
@@ -286,7 +188,8 @@ def main():
 
     random.seed()
 
-    initListsFromKanasDicts()
+    kanas.initFlattenedKanas()
+    words.initWords()
     selected = False
 
     while not selected:

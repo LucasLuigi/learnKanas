@@ -83,3 +83,93 @@ COMBOS_KANAS_HIRA = {
     "M": ["みゃ", "みゅ", "みょ"],
     "R": ["りゃ", "りゅ", "りょ"]
 }
+
+rootKanasRoma = []
+rootKanasHira = []
+rootKanasKata = []
+
+
+# Flattening each multi-level constant kanas lists
+def initFlattenedKanas():
+    global rootKanasRoma
+    global rootKanasHira
+    global rootKanasKata
+
+    # global simpleKanasRoma
+    # global simpleKanasHira
+    # global dakuonRoma
+    # global dakuonHira
+    # global handakuonRoma
+    # global handakuonHira
+    # global combosKanasRoma
+    # global combosKanasHira
+    # global everyKanasRoma
+    # global everyKanasHira
+
+    simpleKanasRoma = []
+    simpleKanasHira = []
+    simpleKanasKata = []
+    dakuonRoma = []
+    dakuonHira = []
+    dakuonKata = []
+    handakuonRoma = []
+    handakuonHira = []
+    handakuonKata = []
+    combosKanasRoma = []
+    combosKanasHira = []
+    combosKanasKata = []
+    everyKanasRoma = []
+    everyKanasHira = []
+    everyKanasKata = []
+
+    # Simple Kanas
+    for line in SIMPLE_KANAS_ROMA:
+        for kana in SIMPLE_KANAS_ROMA[line]:
+            simpleKanasRoma.append(kana)
+
+    for line in SIMPLE_KANAS_HIRA:
+        for kana in SIMPLE_KANAS_HIRA[line]:
+            simpleKanasHira.append(kana)
+
+    # Dakuon ゛
+
+    for line in DAKUON_ROMA:
+        for kana in DAKUON_ROMA[line]:
+            dakuonRoma.append(kana)
+
+    for line in DAKUON_HIRA:
+        for kana in DAKUON_HIRA[line]:
+            dakuonHira.append(kana)
+
+    # Handakuon ゜
+
+    for line in HANDAKUON_ROMA:
+        for kana in HANDAKUON_ROMA[line]:
+            handakuonRoma.append(kana)
+
+    for line in HANDAKUON_HIRA:
+        for kana in HANDAKUON_HIRA[line]:
+            handakuonHira.append(kana)
+
+    # Combos Kanas
+
+    for line in COMBOS_KANAS_ROMA:
+        for kana in COMBOS_KANAS_ROMA[line]:
+            combosKanasRoma.append(kana)
+
+    for line in COMBOS_KANAS_HIRA:
+        for kana in COMBOS_KANAS_HIRA[line]:
+            combosKanasHira.append(kana)
+
+    # Every Kanas (combining every previous ones)
+    everyKanasRoma = simpleKanasRoma + dakuonRoma + handakuonRoma + combosKanasRoma
+    everyKanasHira = simpleKanasHira + dakuonHira + handakuonHira + combosKanasHira
+    everyKanasKata = simpleKanasKata + dakuonKata + handakuonKata + combosKanasKata
+
+    # List of lists
+    rootKanasRoma = [simpleKanasRoma, dakuonRoma,
+                     handakuonRoma, combosKanasRoma, everyKanasRoma]
+    rootKanasHira = [simpleKanasHira, dakuonHira,
+                     handakuonHira, combosKanasHira, everyKanasHira]
+    rootKanasKata = [simpleKanasKata, dakuonKata,
+                     handakuonKata, combosKanasKata, everyKanasKata]
