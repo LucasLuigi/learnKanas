@@ -9,7 +9,7 @@
 9 きゅう
 10000 まん
 Rouge あか
-Blanc しろ(い)
+Blanc しろ/しろい
 Bleu あお
 Couleur いろ
 Vache うし
@@ -117,3 +117,50 @@ Montagne やま
 Japonais にほんご
 Fuji ふじ
 Ici ここ
+Oui はい
+Comme すき
+Un peu すこし
+Quand いつ
+Depuis から
+De même こちらこそ
+Ah あ
+Et bien/Puis では/じゃ
+Je わたし
+Ceci これ
+Cela それ
+Ça (là-bas) あれ
+Maison いえ
+Pièce (de la maison) へや
+Sol ゆか
+Jeu しあい
+Emoji えもじ
+Hiragana ひらがな
+Ennemi てき
+Opposé はんたい
+Festival まつり
+Milieu なか
+Combat けんか
+Bonus おまけ
+Sieste ひるね
+Secret ひみつ
+L'Histoire れきし
+Suivant つぎ
+Lis ゆり
+Mère はは
+Grand frère あに
+Grande sœur あね
+Banque ぎんこう
+Professeur (avec respect) せんせい
+Travail しごと
+Enchanté de faire votre connaissance よろしく/どうぞよろしく/よろしくおねがいします/どうぞよろしくおねがいします
+S'il vous plaît (requête polie) おねがいします
+Désolé ごめん
+Je suis désolé ごめんなさい
+Excuse-moi すみません/どうもすみません
+Je t'en prie (s'il te plaît) どうぞ
+Bye じゃあね
+À plus じゃあね
+À bientôt じゃあね
+Avec plaisir どういたしまして
+Bonne soirée こんばんは
+Bonne nuit おやすみ/おやすみなさい

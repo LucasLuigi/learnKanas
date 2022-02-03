@@ -7,42 +7,50 @@ from pathlib import Path
 
 import kanas
 
-wordsList = []
+wordsDict = {}
 
 
 def importWords(wordFileName, wordFileContent):
-    global wordsList
+    global wordsDict
 
     for line in wordFileContent:
         splittedLine = line.strip(" ").split(" ")
         if len(splittedLine) < 2:
             logging.warning(
-                f"WARNING: the words '{line}' from {wordFileName} will not be imported\nReason: it is not correctly formatted: 'frenchWord japaneseWord'")
+                f"The words '{line}' from {wordFileName} will not be imported\nReason: it is not correctly formatted: 'frenchWord japaneseWord'\n")
         else:
             continueToParseLine = True
-            japaWord = splittedLine[-1].strip("\n")
+            japaWordsSeq = splittedLine[-1].strip("\n")
             for kana in kanas.rootKanasHira[kanas.KANAS_SUBSETS.index("Kanas")]:
                 if kana in splittedLine[-2]:
                     continueToParseLine = False
                     logging.warning(
-                        f"WARNING: the words '{line}' from {wordFileName} will not be imported\nReason: it is not correctly formatted: the japanese word is splitted by a space")
+                        f"The words '{line}' from {wordFileName} will not be imported\nReason: it is not correctly formatted: the japanese word is splitted by a space\n")
 
             if continueToParseLine:
+                japaWordsList = japaWordsSeq.split("/")
                 # Regroup French words (everyone but the last)
                 frenchWord = ""
                 for splittedWord in splittedLine[:-1]:
                     frenchWord = frenchWord + splittedWord + " "
                 frenchWord = frenchWord.strip(" ")
 
-                pairToAppend = [frenchWord, japaWord]
-                wordsList.append(pairToAppend)
+                if frenchWord in wordsDict:
+                    # A list of japanese words already exists at the key of wordsList
+                    # Append
+                    for japaWord in japaWordsList:
+                        wordsDict[frenchWord].append(japaWord)
+                else:
+                    # Append the list to a new key
+                    wordsDict[frenchWord] = japaWordsList
 
     logging.debug("Words list:")
-    for pair in wordsList:
-        logging.debug(f"{pair}")
+    for key in wordsDict:
+        logging.debug(f"{key}: {wordsDict[key]}")
 
 
 def initWords():
+    # FIXME Manage cases when n french words have the same translation ("bye/à plus/à bientot" or 3 lines in the file)
     WORDS_RELATIVE_PATH = "./wordsLists"
 
     logging.debug(

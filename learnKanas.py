@@ -61,13 +61,15 @@ def randomRomajiToKana(alphabet, kanasSubsetIdx):
                 print(
                     f"\nScore: {score}/{nbKanas}, {(100.0*score/nbKanas):.01f}%\n")
 
-                print("List of every incorrect Kanas:")
-                # Using List comprehension to remove none values
-                incorrectKanasRomaCompacted = [
-                    elem for elem in incorrectKanasRoma if elem is not None]
-                for incorrectKana in incorrectKanasRomaCompacted:
-                    print(
-                        f" {incorrectKana:<4} - {usedKanasJapa[usedKanasRoma.index(incorrectKana)]:>2}")
+                if score < nbKanas:
+                    print("List of every incorrect Kanas:")
+                    # Using List comprehension to remove none values
+                    incorrectKanasRomaCompacted = [
+                        elem for elem in incorrectKanasRoma if elem is not None]
+                    for incorrectKana in incorrectKanasRomaCompacted:
+                        print(
+                            f" {incorrectKana:<4} - {usedKanasJapa[usedKanasRoma.index(incorrectKana)]:>2}")
+                    print("")
 
             else:
                 raise ValueError()
@@ -134,13 +136,15 @@ def randomKanaToRomaji(alphabet, kanasSubsetIdx):
                 print(
                     f"\nScore: {score}/{nbKanas}, {(100.0*score/nbKanas):.01f}%\n")
 
-                print("List of every incorrect Kanas:")
-                # Using List comprehension to remove none values
-                incorrectKanasJapaCompacted = [
-                    elem for elem in incorrectKanasJapa if elem is not None]
-                for incorrectKana in incorrectKanasJapaCompacted:
-                    print(
-                        f" {incorrectKana:<4} - {usedKanasRoma[usedKanasJapa.index(incorrectKana)]:>2}")
+                if score < nbKanas:
+                    print("List of every incorrect Kanas:")
+                    # Using List comprehension to remove none values
+                    incorrectKanasJapaCompacted = [
+                        elem for elem in incorrectKanasJapa if elem is not None]
+                    for incorrectKana in incorrectKanasJapaCompacted:
+                        print(
+                            f" {incorrectKana:<4} - {usedKanasRoma[usedKanasJapa.index(incorrectKana)]:>2}")
+                    print("")
 
             else:
                 raise ValueError()
@@ -182,6 +186,39 @@ def selectKanasSubset(alphabet, way):
     return True
 
 
+def selectKanasExercise():
+    selected2 = False
+    while not selected2:
+        print(
+            "# Select mode\n 1- Random Romaji->Hiragana\n 2- Random Hiragana->Romaji\n 3- Random Romaji->Katakana\n 4- Random Katakana->Romaji\n 0- Return\n")
+        choice1 = input("> ")
+        selected2 = True
+
+        if choice1 == '1':
+            selected2 = selectKanasSubset(alphabet='Hiragana', way=0)
+        elif choice1 == '2':
+            selected2 = selectKanasSubset(alphabet='Hiragana', way=1)
+        elif choice1 == '3':
+            selected2 = selectKanasSubset(alphabet='Katakana', way=0)
+        elif choice1 == '4':
+            selected2 = selectKanasSubset(alphabet='Katakana', way=1)
+        elif choice1 == '0':
+            return False
+        else:
+            selected2 = False
+            print("Wrong choice\n")
+
+    return True
+
+
+def selectWordsExercise():
+    print("")
+    logging.info(
+        "Words exercises not yet implemented, please come back soon!")
+    print("")
+    return False
+
+
 def main():
     logger = logging.getLogger()
     logger.setLevel('INFO')
@@ -191,29 +228,25 @@ def main():
     kanas.initFlattenedKanas()
     words.initWords()
 
-    selected = False
-
-    while not selected:
+    selected1 = False
+    while not selected1:
         print(
-            "# Select mode\n 1- Random Romaji->Hiragana\n 2- Random Hiragana->Romaji\n 3- Random Romaji->Katakana\n 4- Random Katakana->Romaji\n 0- Exit\n")
+            "# Select category\n 1- Kanas exercises (characters)\n 2- Words exercises\n 0- Exit\n")
         choice1 = input("> ")
-        selected = True
+        selected1 = True
 
         if choice1 == '1':
-            selected = selectKanasSubset(alphabet='Hiragana', way=0)
+            selected1 = selectKanasExercise()
         elif choice1 == '2':
-            selected = selectKanasSubset(alphabet='Hiragana', way=1)
-        elif choice1 == '3':
-            selected = selectKanasSubset(alphabet='Katakana', way=0)
-        elif choice1 == '4':
-            selected = selectKanasSubset(alphabet='Katakana', way=1)
+            selected1 = selectWordsExercise()
         elif choice1 == '0':
             sys.exit(0)
         else:
-            selected = False
+            selected1 = False
             print("Wrong choice\n")
 
 
 if __name__ == '__main__':
     print('- learnKanas - \n\nようこそ！\n\nIf the sentence above is only blank squares instead of Japanese Hiragana, something is wrong with your terminal.\nOn Windows run chcp 936 (or chcp 932) before launching learnKanas again\n')
     main()
+    print('Thank you for playing!\nGame made by LucasLuigi - https://github.com/LucasLuigi/learnKanas')
