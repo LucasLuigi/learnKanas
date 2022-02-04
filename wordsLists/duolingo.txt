@@ -34,10 +34,10 @@ Bonjour こんにちは
 Au revoir さようなら
 Bon matin おはよう
 Merci ありがとう
-Merci (formel) ありがとうございます
+Merci ありがとうございます
 Merci どうも
 Merci beaucoup どうもありがとう
-Merci beaucoup (formel) どうもありがとうございます
+Merci beaucoup どうもありがとうございます
 Sushi すし
 Légume やさい
 Teriyaki てりやき

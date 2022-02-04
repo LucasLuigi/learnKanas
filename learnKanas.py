@@ -99,10 +99,10 @@ def randomKanaToRomaji(alphabet, kanasSubsetIdx):
      # The order must match the input of selectKanasSubset
     kanasSubsetString = kanas.KANAS_SUBSETS[kanasSubsetIdx-1]
 
-    select1 = False
+    selected = False
     score = 0
     incorrectKanasJapa = [None] * len(usedKanasJapa)
-    while not select1:
+    while not selected:
         print(
             f"# How many {kanasSubsetString} for the game? (1-{len(usedKanasJapa)}, enter 0 for all)\n")
         try:
@@ -111,7 +111,7 @@ def randomKanaToRomaji(alphabet, kanasSubsetIdx):
             if nbKanas == 0:
                 nbKanas = len(usedKanasJapa)
             if nbKanas >= 1 and nbKanas <= len(usedKanasJapa):
-                select1 = True
+                selected = True
 
                 randKanasJapa = random.sample(usedKanasJapa, nbKanas)
                 print(
@@ -172,15 +172,15 @@ def selectKanasSubset(alphabet, way):
     while not selected:
         print(
             f"# Which {alphabet} do you want to {possibleActions[way]}?\n 1- Simple {alphabet}\n 2- Dakuon\n 3- Handakuon\n 4- Combo {alphabet}\n 5- Every Kanas\n 0- Return\n")
-        choice2 = input("> ")
+        choice3 = input("> ")
         selected = True
 
-        if choice2 >= '1' and choice2 <= '5':
+        if choice3 >= '1' and choice3 <= '5':
             if way == 0:
-                randomRomajiToKana(alphabet, int(choice2))
+                randomRomajiToKana(alphabet, int(choice3))
             else:
-                randomKanaToRomaji(alphabet, int(choice2))
-        elif choice2 == '0':
+                randomKanaToRomaji(alphabet, int(choice3))
+        elif choice3 == '0':
             return False
         else:
             selected = False
@@ -193,23 +193,79 @@ def selectKanasExercise():
     while not selected2:
         print(
             "# Select mode\n 1- Random Romaji->Hiragana\n 2- Random Hiragana->Romaji\n 3- Random Romaji->Katakana\n 4- Random Katakana->Romaji\n 0- Return\n")
-        choice1 = input("> ")
+        choice2 = input("> ")
         selected2 = True
 
-        if choice1 == '1':
+        if choice2 == '1':
             selected2 = selectKanasSubset(alphabet='Hiragana', way=0)
-        elif choice1 == '2':
+        elif choice2 == '2':
             selected2 = selectKanasSubset(alphabet='Hiragana', way=1)
-        elif choice1 == '3':
+        elif choice2 == '3':
             selected2 = selectKanasSubset(alphabet='Katakana', way=0)
-        elif choice1 == '4':
+        elif choice2 == '4':
             selected2 = selectKanasSubset(alphabet='Katakana', way=1)
-        elif choice1 == '0':
+        elif choice2 == '0':
             return False
         else:
             selected2 = False
             print("Wrong choice\n")
 
+    return True
+
+
+def randomFrenchToJapaneseWord():
+    select1 = False
+    score = 0
+    incorrectJapaWords = [None] * len(words.frenchToJapaWordsDict)
+    while not select1:
+        print(
+            f"# How many words for the game? (1-{len(usedKanasRoma)}, enter 0 for all)\n")
+        try:
+            nbKanas = int(input("> "))
+            # 0 : select every kanas
+            if nbKanas == 0:
+                nbKanas = len(usedKanasRoma)
+            if nbKanas >= 1 and nbKanas <= len(usedKanasRoma):
+                select1 = True
+
+                randKanasRoma = random.sample(usedKanasRoma, nbKanas)
+                print("- IMPORTANT -\n- SCORE     -\n\nFor each step, please draw the written Kana on a sheet besides, then press Enter.\nThen, Enter 1 if you drew correctly. Eventually, press Enter to continue to the next Kana.")
+                for idxExercise in range(0, nbKanas):
+                    kanaRoma = randKanasRoma[idxExercise]
+                    input(
+                        f"\n#{idxExercise+1}/{nbKanas}\n {kanaRoma}")
+                    kanaJapa = usedKanasJapa[usedKanasRoma.index(kanaRoma)]
+                    print(f" {kanaJapa}")
+                    point = input("Correct? ")
+                    if point == '1':
+                        score += 1
+                    else:
+                        incorrectJapaWords[usedKanasRoma.index(
+                            kanaRoma)] = kanaRoma
+
+                # Score
+                print(
+                    f"\nScore: {score}/{nbKanas}, {(100.0*score/nbKanas):.01f}%\n")
+
+                if score < nbKanas:
+                    print("List of every incorrect Kanas:")
+                    # Using List comprehension to remove none values
+                    incorrectJapaWordsCompacted = [
+                        elem for elem in incorrectJapaWords if elem is not None]
+                    for incorrectKana in incorrectJapaWordsCompacted:
+                        print(
+                            f" {incorrectKana:<4} - {usedKanasJapa[usedKanasRoma.index(incorrectKana)]:>2}")
+                    print("")
+
+            else:
+                raise ValueError()
+        except ValueError as err:
+            print(f"Wrong choice (must be 1-{len(usedKanasRoma)})\n")
+
+    return True
+
+
+def randomJapaneseToFrenchWord():
     return True
 
 
@@ -219,6 +275,26 @@ def selectWordsExercise():
         "Words exercises not yet implemented, please come back soon!")
     print("")
     return False
+
+    # FIXME WIP, delete the above lines when over
+    selected2 = False
+    while not selected2:
+        print(
+            "# Select mode\n 1- Random French word->Japanese word\n 2- Random Japanese word->French word\n 0- Return\n")
+        choice1 = input("> ")
+        selected2 = True
+
+        if choice1 == '1':
+            selected2 = randomFrenchToJapaneseWord()
+        elif choice1 == '2':
+            selected2 = randomJapaneseToFrenchWord()
+        elif choice1 == '0':
+            return False
+        else:
+            selected2 = False
+            print("Wrong choice\n")
+
+    return True
 
 
 def main():

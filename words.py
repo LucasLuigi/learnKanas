@@ -7,12 +7,13 @@ from pathlib import Path
 
 import kanas
 
-wordsDict = {}
+frenchToJapaWordsDict = {}
+japaToFrenchWordsDict = {}
 
 
 def importWords(wordFileName, wordFileContent):
     # FIXME Manage cases when n french words have the same translation ("bye/à plus/à bientot" or 3 lines in the file)
-    global wordsDict
+    global frenchToJapaWordsDict
 
     for line in wordFileContent:
         splittedLine = line.strip(" ").split(" ")
@@ -36,18 +37,19 @@ def importWords(wordFileName, wordFileContent):
                     frenchWord = frenchWord + splittedWord + " "
                 frenchWord = frenchWord.strip(" ")
 
-                if frenchWord in wordsDict:
-                    # A list of japanese words already exists at the key of wordsList
+                if frenchWord in frenchToJapaWordsDict:
+                    # A list of japanese words already exists at the key of frenchToJapaWordsDict
                     # Append
                     for japaWord in japaWordsList:
-                        wordsDict[frenchWord].append(japaWord)
+                        frenchToJapaWordsDict[frenchWord].append(japaWord)
                 else:
                     # Append the list to a new key
-                    wordsDict[frenchWord] = japaWordsList
+                    frenchToJapaWordsDict[frenchWord] = japaWordsList
 
-    logging.debug("Words list:")
-    for key in wordsDict:
-        logging.debug(f"{key}: {wordsDict[key]}")
+    logging.debug("French to Japanese: words dict:")
+    for key in frenchToJapaWordsDict:
+        logging.debug(f"{key}: {frenchToJapaWordsDict[key]}")
+    logging.debug("############################################")
 
 
 def initWords():
@@ -64,6 +66,23 @@ def initWords():
             f"words.initWords: {wordFile} will be imported")
         with open(f"{WORDS_RELATIVE_PATH}/{wordFile}", "r", encoding="utf-8") as wordFileContent:
             importWords(wordFile, wordFileContent)
+
+    # Reverse the dictionnary to have a Japanese to French dict
+    for frenchWord in frenchToJapaWordsDict:
+        for japaWord in frenchToJapaWordsDict[frenchWord]:
+            # japaWord will be the key of the new dict
+            # Example of "bye/à plus/à bientot": they all have the same translation in Japanese. In the French to Japa dict, they appear three time.
+            # In this Japa to French dict, there will be one key, じゃあね, and 3 french words in the value (the list)
+            if japaWord not in japaToFrenchWordsDict:
+                # Append a new list to a new key
+                japaToFrenchWordsDict[japaWord] = []
+            # If a list of French words already exists at the key of japaToFrenchWordsDict, append only in the existing list at japaToFrenchWordsDict[japaWord]
+            japaToFrenchWordsDict[japaWord].append(frenchWord)
+
+    logging.debug("Japanese to French: words dict:")
+    for key in japaToFrenchWordsDict:
+        logging.debug(f"{key}: {japaToFrenchWordsDict[key]}")
+    logging.debug("############################################")
 
     logging.debug(
         "words.initWords: ... import done.\n")
