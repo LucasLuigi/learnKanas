@@ -11,6 +11,7 @@ wordsDict = {}
 
 
 def importWords(wordFileName, wordFileContent):
+    # FIXME Manage cases when n french words have the same translation ("bye/à plus/à bientot" or 3 lines in the file)
     global wordsDict
 
     for line in wordFileContent:
@@ -50,7 +51,6 @@ def importWords(wordFileName, wordFileContent):
 
 
 def initWords():
-    # FIXME Manage cases when n french words have the same translation ("bye/à plus/à bientot" or 3 lines in the file)
     WORDS_RELATIVE_PATH = "./wordsLists"
 
     logging.debug(

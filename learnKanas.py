@@ -7,6 +7,8 @@ import random
 import kanas
 import words
 
+DEBUG_LEVEL = 'INFO'
+
 
 def randomRomajiToKana(alphabet, kanasSubsetIdx):
     try:
@@ -220,8 +222,10 @@ def selectWordsExercise():
 
 
 def main():
+    global DEBUG_LEVEL
+
     logger = logging.getLogger()
-    logger.setLevel('INFO')
+    logger.setLevel(DEBUG_LEVEL)
 
     random.seed()
 
