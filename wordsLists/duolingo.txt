@@ -164,3 +164,15 @@ Bye じゃあね
 Avec plaisir どういたしまして
 Bonne soirée こんばんは
 Bonne nuit おやすみ/おやすみなさい
+Souris ねずみ
+Réveil めざまし
+Tremblement de terre じしん
+Qui だれ
+Continuer つづく
+Encore まだ
+Larmes なみだ
+Soir ばん
+Feu d'artifice はなび
+Electricité でんき
+Saignement de nez はなぢ
+Ami ともだち

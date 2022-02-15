@@ -11,8 +11,7 @@ frenchToJapaWordsDict = {}
 japaToFrenchWordsDict = {}
 
 
-def importWords(wordFileName, wordFileContent):
-    # FIXME Manage cases when n french words have the same translation ("bye/à plus/à bientot" or 3 lines in the file)
+def buildFrenchToJapaWordsDict(wordFileContent, wordFileName):
     global frenchToJapaWordsDict
 
     for line in wordFileContent:
@@ -35,7 +34,7 @@ def importWords(wordFileName, wordFileContent):
                 frenchWord = ""
                 for splittedWord in splittedLine[:-1]:
                     frenchWord = frenchWord + splittedWord + " "
-                frenchWord = frenchWord.strip(" ")
+                frenchWord = frenchWord.strip(" ").lower()
 
                 if frenchWord in frenchToJapaWordsDict:
                     # A list of japanese words already exists at the key of frenchToJapaWordsDict
@@ -52,22 +51,11 @@ def importWords(wordFileName, wordFileContent):
     logging.debug("############################################")
 
 
-def initWords():
-    WORDS_RELATIVE_PATH = "./wordsLists"
+# Reverse the French to Japanese words dictionnary to make a Japanese to French dictionnary
+def buildJapaToFrenchWordsDict():
+    global frenchToJapaWordsDict
+    global japaToFrenchWordsDict
 
-    logging.debug(
-        "words.initWords: importing file in wordLists/ to fill the list used by the learnKanas words' exercise...")
-
-    wordsFiles = [f for f in listdir(
-        WORDS_RELATIVE_PATH) if isfile(join(WORDS_RELATIVE_PATH, f))]
-
-    for wordFile in wordsFiles:
-        logging.debug(
-            f"words.initWords: {wordFile} will be imported")
-        with open(f"{WORDS_RELATIVE_PATH}/{wordFile}", "r", encoding="utf-8") as wordFileContent:
-            importWords(wordFile, wordFileContent)
-
-    # Reverse the dictionnary to have a Japanese to French dict
     for frenchWord in frenchToJapaWordsDict:
         for japaWord in frenchToJapaWordsDict[frenchWord]:
             # japaWord will be the key of the new dict
@@ -79,10 +67,48 @@ def initWords():
             # If a list of French words already exists at the key of japaToFrenchWordsDict, append only in the existing list at japaToFrenchWordsDict[japaWord]
             japaToFrenchWordsDict[japaWord].append(frenchWord)
 
+
+# Check if each word in one dict is in the other one
+def checkIfDictsAreTrulyOpposite():
+    global frenchToJapaWordsDict
+    global japaToFrenchWordsDict
+
+    for frenchKey in frenchToJapaWordsDict:
+        for japaWord in frenchToJapaWordsDict[frenchKey]:
+            if japaWord not in japaToFrenchWordsDict:
+                logging.warning(
+                    f"Someting went wrong: {japaWord} not in the dynamically built Japanese to French dictionary.")
+
+    for japaKey in japaToFrenchWordsDict:
+        for frenchWord in japaToFrenchWordsDict[japaKey]:
+            if frenchWord not in frenchToJapaWordsDict:
+                logging.warning(
+                    f"Someting went wrong: {frenchWord} not in the dynamically built Japanese to French dictionary.")
+
+
+def initWords():
+    WORDS_RELATIVE_PATH = "./wordsLists"
+
+    logging.debug(
+        "words.initWords: importing file in wordLists/ to fill the list used by the learnKanas words' exercise...")
+
+    wordsFiles = [f for f in listdir(
+        WORDS_RELATIVE_PATH) if isfile(join(WORDS_RELATIVE_PATH, f))]
+
+    for wordsFile in wordsFiles:
+        logging.debug(
+            f"words.initWords: {wordsFile} will be imported")
+        with open(f"{WORDS_RELATIVE_PATH}/{wordsFile}", "r", encoding="utf-8") as wordsFileContent:
+            buildFrenchToJapaWordsDict(wordsFileContent, wordsFile)
+
+    buildJapaToFrenchWordsDict()
+
     logging.debug("Japanese to French: words dict:")
     for key in japaToFrenchWordsDict:
         logging.debug(f"{key}: {japaToFrenchWordsDict[key]}")
     logging.debug("############################################")
+
+    checkIfDictsAreTrulyOpposite()
 
     logging.debug(
         "words.initWords: ... import done.\n")

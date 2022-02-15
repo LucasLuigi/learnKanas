@@ -216,67 +216,71 @@ def selectKanasExercise():
 def randomFrenchToJapaneseWord():
     select1 = False
     score = 0
-    incorrectJapaWords = [None] * len(words.frenchToJapaWordsDict)
+    frenchWordsNumber = len(words.frenchToJapaWordsDict)
+    incorrectFrenchWords = []
+
     while not select1:
         print(
-            f"# How many words for the game? (1-{len(usedKanasRoma)}, enter 0 for all)\n")
+            f"# How many words for the game? (1-{frenchWordsNumber}, enter 0 for all)\n")
         try:
-            nbKanas = int(input("> "))
-            # 0 : select every kanas
-            if nbKanas == 0:
-                nbKanas = len(usedKanasRoma)
-            if nbKanas >= 1 and nbKanas <= len(usedKanasRoma):
+            nbWords = int(input("> "))
+            # 0 : select every word
+            if nbWords == 0:
+                nbWords = frenchWordsNumber
+            if nbWords >= 1 and nbWords <= frenchWordsNumber:
                 select1 = True
 
-                randKanasRoma = random.sample(usedKanasRoma, nbKanas)
-                print("- IMPORTANT -\n- SCORE     -\n\nFor each step, please draw the written Kana on a sheet besides, then press Enter.\nThen, Enter 1 if you drew correctly. Eventually, press Enter to continue to the next Kana.")
-                for idxExercise in range(0, nbKanas):
-                    kanaRoma = randKanasRoma[idxExercise]
-                    input(
-                        f"\n#{idxExercise+1}/{nbKanas}\n {kanaRoma}")
-                    kanaJapa = usedKanasJapa[usedKanasRoma.index(kanaRoma)]
-                    print(f" {kanaJapa}")
-                    point = input("Correct? ")
-                    if point == '1':
+                randFrenchWords = random.sample(
+                    list(words.frenchToJapaWordsDict.keys()), nbWords)
+                print(
+                    "- IMPORTANT -\n- SCORE     -\n\nFor each word, enter the correct translation, then press Enter.")
+                print(
+                    "WARNING - For the moment, you must use a Japanese keyboard to answer. This limitation will be fixed soon.")
+                for idxExercise in range(0, nbWords):
+                    frenchWord = randFrenchWords[idxExercise]
+                    inputJapaWord = input(
+                        f"\n#{idxExercise+1}/{nbWords}\n {frenchWord}\n ").strip(" ").lower()
+                    correctJapaWordsList = words.frenchToJapaWordsDict[frenchWord]
+
+                    if inputJapaWord in correctJapaWordsList:
+                        print("CORRECT")
                         score += 1
                     else:
-                        incorrectJapaWords[usedKanasRoma.index(
-                            kanaRoma)] = kanaRoma
+                        # FIXME Find an elegant way to print every possible translation
+                        print(
+                            f"INCORRECT, it was {correctJapaWordsList[0]}")
+                        incorrectFrenchWords.append(frenchWord)
 
                 # Score
                 print(
-                    f"\nScore: {score}/{nbKanas}, {(100.0*score/nbKanas):.01f}%\n")
+                    f"\nScore: {score}/{nbWords}, {(100.0*score/nbWords):.01f}%\n")
 
-                if score < nbKanas:
-                    print("List of every incorrect Kanas:")
-                    # Using List comprehension to remove none values
-                    incorrectJapaWordsCompacted = [
-                        elem for elem in incorrectJapaWords if elem is not None]
-                    for incorrectKana in incorrectJapaWordsCompacted:
+                if score < nbWords:
+                    print("List of every incorrect translation:")
+                    for incorrectWord in incorrectFrenchWords:
                         print(
-                            f" {incorrectKana:<4} - {usedKanasJapa[usedKanasRoma.index(incorrectKana)]:>2}")
+                            f" {incorrectWord} - {words.frenchToJapaWordsDict[incorrectWord]}")
                     print("")
 
             else:
                 raise ValueError()
         except ValueError as err:
-            print(f"Wrong choice (must be 1-{len(usedKanasRoma)})\n")
+            print(f"Wrong choice (must be 1-{frenchWordsNumber})\n")
 
     return True
 
 
 def randomJapaneseToFrenchWord():
-    return True
+    print("")
+    logging.info(
+        "Japanese to French words exercises not yet implemented, please come back soon!")
+    print("")
+
+    # FIXME WIP, delete the above lines when implemented
+    return False
 
 
 def selectWordsExercise():
-    print("")
-    logging.info(
-        "Words exercises not yet implemented, please come back soon!")
-    print("")
-    return False
-
-    # FIXME WIP, delete the above lines when over
     selected2 = False
     while not selected2:
         print(
