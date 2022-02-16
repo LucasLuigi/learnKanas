@@ -69,17 +69,24 @@ def buildJapaToFrenchWordsDict():
 
 
 # Check if each word in one dict is in the other one
-def checkIfDictsAreTrulyOpposite():
+def checkDicts():
     global frenchToJapaWordsDict
     global japaToFrenchWordsDict
 
+    # Check if each word in one dict is in the other one
     for frenchKey in frenchToJapaWordsDict:
+        if len(frenchToJapaWordsDict[frenchKey]) == 0:
+            logging.warning(
+                f"Someting went wrong: {frenchKey} seems to not have any translation in the line where it is written.")
         for japaWord in frenchToJapaWordsDict[frenchKey]:
             if japaWord not in japaToFrenchWordsDict:
                 logging.warning(
                     f"Someting went wrong: {japaWord} not in the dynamically built Japanese to French dictionary.")
 
     for japaKey in japaToFrenchWordsDict:
+        if len(japaToFrenchWordsDict[japaKey]) == 0:
+            logging.warning(
+                f"Someting went wrong: {japaKey} seems to not have any translation in the line where it is written.")
         for frenchWord in japaToFrenchWordsDict[japaKey]:
             if frenchWord not in frenchToJapaWordsDict:
                 logging.warning(
@@ -108,7 +115,7 @@ def initWords():
         logging.debug(f"{key}: {japaToFrenchWordsDict[key]}")
     logging.debug("############################################")
 
-    checkIfDictsAreTrulyOpposite()
+    checkDicts()
 
     logging.debug(
         "words.initWords: ... import done.\n")

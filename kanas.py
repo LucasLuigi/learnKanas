@@ -84,6 +84,13 @@ COMBOS_KANAS_HIRA = {
     "R": ["りゃ", "りゅ", "りょ"]
 }
 
+# Romaji naming several hira/katakanas
+AMBIGUOUS_ROMAJI_LIST = ["ji", "ju"]
+AMBIGUOUS_ROMAJI_DICT = [
+    {"ji": ["z_ji", "d_ji"]},
+    {"ju": ["ju", "d_ju"]}
+]
+
 rootKanasRoma = []
 rootKanasHira = []
 rootKanasKata = []
