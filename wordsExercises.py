@@ -123,10 +123,9 @@ def splitRomajiWord(romajiWord):
 # Because one romaji may be two different kana, the transcripted kana word is a matrix.
 # For each character of the word (first level), every possibility (second level) will be explored and compared with the correct list
 # This function must be called with the Hiraganas and the Katakana matrix
+# FIXME this method does not work: i do not have 001
+# FIXME handle long consumns (new kanas? better: if one item kanaWordMatrix begins with double consums, consider it's っ+kana)
 def compareEveryCombinationWithTheCorrectList(kanaWordMatrix, correctJapaWordsList, possibleRebuiltWords):
-    # FIXME this method does not work: i do not have 001
-    # FIXME handle long consumns (new kanas? better: if one item kanaWordMatrix begins with double consums, consider it's っ+kana)
-
     # This list will contain the index where get each kana from each list of kanaWordMatrix.
     # If the romaji word is "a ji ju", giving then two possibilities for each two last romaji, kanaWordIndices
     # will have these values: 000, 010, 011
