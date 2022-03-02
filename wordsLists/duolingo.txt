@@ -176,18 +176,6 @@ Feu d'artifice はなび
 Electricité でんき
 Saignement de nez はなぢ
 Ami ともだち
-Souris ねずみ
-Réveil めざまし
-Tremblement de terre じしん
-Qui だれ
-Continuer つづく
-Encore まだ
-Larmes なみだ
-Soir ばん
-Feu d'artifice はなび
-Electricité でんき
-Saignement de nez はなぢ
-Ami ともだち
 Tortue かめ
 Rêve ゆめ
 Fille むすめ
