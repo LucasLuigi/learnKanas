@@ -34,10 +34,10 @@ Bonjour こんにちは
 Au revoir さようなら
 Bon matin おはよう
 Merci ありがとう
-Merci (formel) ありがとうございます
+Merci ありがとうございます
 Merci どうも
 Merci beaucoup どうもありがとう
-Merci beaucoup (formel) どうもありがとうございます
+Merci beaucoup どうもありがとうございます
 Sushi すし
 Légume やさい
 Teriyaki てりやき
@@ -164,6 +164,30 @@ Bye じゃあね
 Avec plaisir どういたしまして
 Bonne soirée こんばんは
 Bonne nuit おやすみ/おやすみなさい
+Souris ねずみ
+Réveil めざまし
+Tremblement de terre じしん
+Qui だれ
+Continuer つづく
+Encore まだ
+Larmes なみだ
+Soir ばん
+Feu d'artifice はなび
+Electricité でんき
+Saignement de nez はなぢ
+Ami ともだち
+Souris ねずみ
+Réveil めざまし
+Tremblement de terre じしん
+Qui だれ
+Continuer つづく
+Encore まだ
+Larmes なみだ
+Soir ばん
+Feu d'artifice はなび
+Electricité でんき
+Saignement de nez はなぢ
+Ami ともだち
 Tortue かめ
 Rêve ゆめ
 Fille むすめ
