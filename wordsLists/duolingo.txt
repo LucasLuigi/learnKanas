@@ -176,3 +176,37 @@ Feu d'artifice はなび
 Electricité でんき
 Saignement de nez はなぢ
 Ami ともだち
+Souris ねずみ
+Réveil めざまし
+Tremblement de terre じしん
+Qui だれ
+Continuer つづく
+Encore まだ
+Larmes なみだ
+Soir ばん
+Feu d'artifice はなび
+Electricité でんき
+Saignement de nez はなぢ
+Ami ともだち
+Tortue かめ
+Rêve ゆめ
+Fille むすめ
+Nature しぜん
+Famille かぞく
+Genoux ひざ
+Volcan かざん
+Doigt ゆび
+Navet かぶ
+Pièce de théâtre しばい
+Blizzard ふぶき
+Guerrier ぶし
+Pissenlit たんぽぽ
+Fondue chinoise なべ
+Voyage たび
+Culture ぶんか
+Avocat べんごし
+Note de musique おんぷ
+Balade さんぽ
+Santé ! かんぱい
+Progrès しんぽ
+Parfait かんぺき
