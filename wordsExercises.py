@@ -125,34 +125,14 @@ def splitRomajiWord(romajiWord):
 # This function must be called with the Hiraganas and the Katakana matrix
 # FIXME this method does not work: i do not have 001
 # FIXME handle long consumns (new kanas? better: if one item kanaWordMatrix begins with double consums, consider it's っ+kana)
-def compareEveryCombinationWithTheCorrectList(kanaWordMatrix, correctJapaWordsList, possibleRebuiltWords):
+def compareEveryCombinationWithTheCorrectList(kanaWordMatrix, correctJapaWordsList, possibleRebuiltWords, matrixIndex=0):
     # This list will contain the index where get each kana from each list of kanaWordMatrix.
     # If the romaji word is "a ji ju", giving then two possibilities for each two last romaji, kanaWordIndices
     # will have these values: 000, 010, 011
-    kanaWordIndices = [
-        0] * len(kanaWordMatrix)
-    for combination in range(possibleRebuiltWords):
-        # TODO Build word from matrixes
 
-        kanaWordRebuilt = ""
-        for idxLetter in range(len(kanaWordMatrix)):
-            chosenKana = kanaWordMatrix[idxLetter][kanaWordIndices[idxLetter]]
-            kanaWordRebuilt += chosenKana
-
-        incrementingDone = False
-        # Smartly increment the indices to browse every possibility
-        for idxLetter in range(len(kanaWordIndices)):
-            if not incrementingDone:
-                if kanaWordIndices[idxLetter] + 1 < len(kanaWordMatrix[idxLetter]):
-                    # Continue to explore the possibility by just incrementing the first letter that we want
-                    kanaWordIndices[idxLetter] += 1
-                    incrementingDone = True
-                else:
-                    # We will increment the next "letter"
-                    pass
-
-        if kanaWordRebuilt in correctJapaWordsList:
-            return kanaWordRebuilt
+    if matrixIndex == len(kanaWordMatrix)-1:
+        pass
+        # rebuiltWord =
 
     return None
 
