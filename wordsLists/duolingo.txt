@@ -164,3 +164,25 @@ Bye じゃあね
 Avec plaisir どういたしまして
 Bonne soirée こんばんは
 Bonne nuit おやすみ/おやすみなさい
+Tortue かめ
+Rêve ゆめ
+Fille むすめ
+Nature しぜん
+Famille かぞく
+Genoux ひざ
+Volcan かざん
+Doigt ゆび
+Navet かぶ
+Pièce de théâtre しばい
+Blizzard ふぶき
+Guerrier ぶし
+Pissenlit たんぽぽ
+Fondue chinoise なべ
+Voyage たび
+Culture ぶんか
+Avocat べんごし
+Note de musique おんぷ
+Balade さんぽ
+Santé ! かんぱい
+Progrès しんぽ
+Parfait かんぺき
