@@ -1,5 +1,6 @@
 # -*-coding:utf-8 -*
 import logging
+import re
 import sys
 import random
 
@@ -120,27 +121,47 @@ def splitRomajiWord(romajiWord):
     return romajiList
 
 
-# Because one romaji may be two different kana, the transcripted kana word is a matrix.
+# Because one romaji may transcript two different kana, the transcripted kana word is a matrix.
 # For each character of the word (first level), every possibility (second level) will be explored and compared with the correct list
 # This function must be called with the Hiraganas and the Katakana matrix
-# FIXME this method does not work: i do not have 001
-# FIXME handle long consumns (new kanas? better: if one item kanaWordMatrix begins with double consums, consider it's っ+kana)
-def compareEveryCombinationWithTheCorrectList(kanaWordMatrix, correctJapaWordsList, possibleRebuiltWords, matrixIndex=0):
+def compareEveryCombinationWithTheCorrectList(kanaWordMatrix, correctJapaWordsList, rebuiltWord="", matrixIndex=0):
     # This list will contain the index where get each kana from each list of kanaWordMatrix.
     # If the romaji word is "a ji ju", giving then two possibilities for each two last romaji, kanaWordIndices
     # will have these values: 000, 010, 011
 
-    if matrixIndex == len(kanaWordMatrix)-1:
-        pass
-        # rebuiltWord =
+    idxPossibleKana = 0
+    for possibleKana in kanaWordMatrix[matrixIndex]:
+        logging.debug(
+            f'#{matrixIndex}#{idxPossibleKana}: {rebuiltWord}+{possibleKana}')
 
-    return None
+        rebuiltWordWithCurrentKana = rebuiltWord+possibleKana
+        if matrixIndex == len(kanaWordMatrix)-1:
+            # Check rebuilt word (end condition)
+            if rebuiltWordWithCurrentKana in correctJapaWordsList:
+                logging.debug('OK')
+                return True, rebuiltWordWithCurrentKana
+            else:
+                logging.debug('KO')
+                return False, None
+        else:
+            # Iterate
+            returnedStatus, returnedWord = compareEveryCombinationWithTheCorrectList(
+                kanaWordMatrix, correctJapaWordsList, rebuiltWordWithCurrentKana, matrixIndex+1)
+            # Stop the search and return True, returnedWord
+            if returnedStatus:
+                return returnedStatus, returnedWord
+            # Else, continue the search
+
+        idxPossibleKana += 1
+
+    return False, None
 
 
 # Sometimes, the player can input a Japanese word only using romaji.
-# This function tries to decipher it (transcript in into Japanese) and return if it is in the list of correct word for this exercise's step
+# This function tries to decipher it (transcript in into Japanese) and return if it is in the list of correct words for this exercise's step
 def decipherJapaneseWordsFromRomajiTranscription(inputJapaWord, correctJapaWordsList):
-    # FIXME Add robustness when a romaji in input does not exit
+    # FIXME Add robustness when a romaji in input does not exist
+    # FIXME handle long consumns (new kanas? or better: if one item kanaWordMatrix begins with double consums, consider it's っ+kana)
 
     decipheredAndCorrect = False
     rebuiltAndCorrectWord = None
@@ -160,7 +181,6 @@ def decipherJapaneseWordsFromRomajiTranscription(inputJapaWord, correctJapaWords
         katakanaWordMatrix = [None] * len(romajiList)
 
         idxLetter = 0
-        possibleRebuiltWords = 1
 
         for romaji in romajiList:
             if romaji in kanas.AMBIGUOUS_ROMAJI_LIST:
@@ -171,10 +191,8 @@ def decipherJapaneseWordsFromRomajiTranscription(inputJapaWord, correctJapaWords
                 # Not ambiguous: the potential romajis are in fact the only one
                 potentialRomajis = [romaji]
 
-            # Used to maximize the combinatory search below to rebuild the possible words from the matrix
-            possibleRebuiltWords *= len(potentialRomajis)
-
             # From everyKanasHira, extract the hira translating the potential romaji using the index of everyKanasRoma
+            # FIXME Exception when a romaji does not exist
             potentialHira = [kanas.rootKanasHira[-1][kanas.rootKanasRoma[-1].index(
                 roma)] for roma in potentialRomajis]
             hiraganaWordMatrix[idxLetter] = potentialHira
@@ -189,18 +207,17 @@ def decipherJapaneseWordsFromRomajiTranscription(inputJapaWord, correctJapaWords
             idxLetter += 1
 
         # Compare the hiragana matrix's combinations with correctJapaWordsList
-        returnedCorrectWord = compareEveryCombinationWithTheCorrectList(
-            hiraganaWordMatrix, correctJapaWordsList, possibleRebuiltWords)
+        returnedStatus, returnedWord = compareEveryCombinationWithTheCorrectList(
+            hiraganaWordMatrix, correctJapaWordsList)
 
-        if returnedCorrectWord == None:
+        if not returnedStatus:
             # If there is no result, compare the hiragana matrix's combinations with correctJapaWordsList
-            returnedCorrectWord = compareEveryCombinationWithTheCorrectList(
-                katakanaWordMatrix, correctJapaWordsList, possibleRebuiltWords)
-
+            returnedStatus, returnedWord = compareEveryCombinationWithTheCorrectList(
+                katakanaWordMatrix, correctJapaWordsList)
         # Found a word in correctJapaWordsList
-        if returnedCorrectWord != None:
+        if returnedStatus:
             decipheredAndCorrect = True
-            rebuiltAndCorrectWord = returnedCorrectWord
+            rebuiltAndCorrectWord = returnedWord
         # else: return False, None
 
     return decipheredAndCorrect, rebuiltAndCorrectWord
