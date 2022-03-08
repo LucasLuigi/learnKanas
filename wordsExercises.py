@@ -78,7 +78,7 @@ def randomFrenchToJapaneseWord():
 
                         if decipheredAndCorrect:
                             # FIXME behavior to validate
-                            print(f" {rebuiltAndCorrectWord}\nCORRECT")
+                            print(f"{rebuiltAndCorrectWord}\nCORRECT")
                             score += 1
                         else:
                             # Definitely incorrect
