@@ -91,6 +91,10 @@ AMBIGUOUS_ROMAJI_DICT = [
     {"ju": ["ju", "d_ju"]}
 ]
 
+# List of romajis accepted for the rule of double consonant
+ROMAJI_AUTHORIZING_LITTLE_TSU_PREFIX_LIST = [
+    "ka", "sa", "ta", "pa", "ko", "so", "to", "po"]
+
 rootKanasRoma = []
 rootKanasHira = []
 rootKanasKata = []

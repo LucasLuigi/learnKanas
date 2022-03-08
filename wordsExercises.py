@@ -1,4 +1,5 @@
 # -*-coding:utf-8 -*
+
 import logging
 import re
 import sys
@@ -9,6 +10,11 @@ import config
 
 import kanas
 import words
+
+
+# Exception when it is not correct that a specific romaji follows a っ
+class LittleTsuError(SyntaxError):
+    pass
 
 
 # Select the translation between both directions
@@ -115,7 +121,7 @@ def randomFrenchToJapaneseWord():
 # Split a romaji word without space into the list of each its romaji
 def splitRomajiWord(romajiWord):
     # TODO to implement
-    # FIXME handle long consumns (new kanas? better: if double consums, consider it's っ+kana)
+    # FIXME handle long consonant (new kanas? better: if double consonant, consider it's っ+kana)
 
     romajiList = []
     return romajiList
@@ -129,19 +135,27 @@ def compareEveryCombinationWithTheCorrectList(kanaWordMatrix, correctJapaWordsLi
     # If the romaji word is "a ji ju", giving then two possibilities for each two last romaji, kanaWordIndices
     # will have these values: 000, 010, 011
 
+    # Should not occur
+    if len(kanaWordMatrix) == 0:
+        logging.error(
+            "Something went wrong, no romaji were detected in your input")
+        return False, None
+
     idxPossibleKana = 0
     for possibleKana in kanaWordMatrix[matrixIndex]:
         logging.debug(
-            f'#{matrixIndex}#{idxPossibleKana}: {rebuiltWord}+{possibleKana}')
+            f'[compareEveryCombinationWithTheCorrectList] #{matrixIndex}#{idxPossibleKana}: {rebuiltWord}+{possibleKana}')
 
         rebuiltWordWithCurrentKana = rebuiltWord+possibleKana
         if matrixIndex == len(kanaWordMatrix)-1:
             # Check rebuilt word (end condition)
             if rebuiltWordWithCurrentKana in correctJapaWordsList:
-                logging.debug('OK')
+                logging.debug(
+                    '[compareEveryCombinationWithTheCorrectList] SUCCESS')
                 return True, rebuiltWordWithCurrentKana
             else:
-                logging.debug('KO')
+                logging.debug(
+                    '[compareEveryCombinationWithTheCorrectList] FAILED')
                 return False, None
         else:
             # Iterate
@@ -160,65 +174,110 @@ def compareEveryCombinationWithTheCorrectList(kanaWordMatrix, correctJapaWordsLi
 # Sometimes, the player can input a Japanese word only using romaji.
 # This function tries to decipher it (transcript in into Japanese) and return if it is in the list of correct words for this exercise's step
 def decipherJapaneseWordsFromRomajiTranscription(inputJapaWord, correctJapaWordsList):
-    # FIXME Add robustness when a romaji in input does not exist
-    # FIXME handle long consumns (new kanas? or better: if one item kanaWordMatrix begins with double consums, consider it's っ+kana)
-
     decipheredAndCorrect = False
     rebuiltAndCorrectWord = None
 
-    # In inputJapaWord is not readable, return deciphered=False
-    if inputJapaWord != None and inputJapaWord != "":
-        # Try to decipher romaji inputs
-        # Romaji splitted by space
-        romajiList = inputJapaWord.split(" ")
+    try:
+        # In inputJapaWord is not readable, return deciphered=False
+        if inputJapaWord != None and inputJapaWord != "":
+            # Try to decipher romaji inputs
+            # Romaji splitted by space
+            romajiList = inputJapaWord.split(" ")
 
-        if len(romajiList) == 1:
-            romajiList = splitRomajiWord(inputJapaWord)
+            if len(romajiList) == 1:
+                romajiList = splitRomajiWord(inputJapaWord)
 
-        # These 2 variables are not directly strings to support the possibility to have several kana for one romaji (ji, ju).
-        # The combinatory will be explored below
-        hiraganaWordMatrix = [None] * len(romajiList)
-        katakanaWordMatrix = [None] * len(romajiList)
+            # These 2 variables are not directly strings to support the possibility to have several kana for one romaji (ji, ju).
+            # The combinatory will be explored below
+            hiraganaWordMatrix = [None] * len(romajiList)
+            katakanaWordMatrix = [None] * len(romajiList)
 
-        idxLetter = 0
+            idxLetter = 0
 
-        for romaji in romajiList:
-            if romaji in kanas.AMBIGUOUS_ROMAJI_LIST:
-                # Ambiguous case when a Romaji can be several hira/katakana
-                potentialRomajis = kanas.AMBIGUOUS_ROMAJI_DICT[kanas.AMBIGUOUS_ROMAJI_LIST.index(
-                    romaji)][romaji]
-            else:
-                # Not ambiguous: the potential romajis are in fact the only one
-                potentialRomajis = [romaji]
+            for romaji in romajiList:
+                if romaji in kanas.AMBIGUOUS_ROMAJI_LIST:
+                    # Ambiguous case when a Romaji can be several hira/katakana
+                    potentialRomajis = kanas.AMBIGUOUS_ROMAJI_DICT[kanas.AMBIGUOUS_ROMAJI_LIST.index(
+                        romaji)][romaji]
+                else:
+                    # Not ambiguous: the potential romajis are in fact just the only one here
+                    potentialRomajis = [romaji]
 
-            # From everyKanasHira, extract the hira translating the potential romaji using the index of everyKanasRoma
-            # FIXME Exception when a romaji does not exist
-            potentialHira = [kanas.rootKanasHira[-1][kanas.rootKanasRoma[-1].index(
-                roma)] for roma in potentialRomajis]
-            hiraganaWordMatrix[idxLetter] = potentialHira
+                # From everyKanasHira, extract the hira translating the potential romaji using the index of everyKanasRoma
+                potentialHira = [""] * len(potentialRomajis)
+                idxPotentialRoma = 0
+                for roma in potentialRomajis:
+                    # Double consonant
+                    if len(roma) > 2 and roma[0] == roma[1]:
+                        logging.debug(
+                            f"[decipherJapaneseWordsFromRomajiTranscription] Hira: double consonant '{roma[0]}'")
 
-            # FIXME
-            if config.NOT_IMPLEMENTED_YET == False:
-                logging.error("NOT_IMPLEMENTED_YET")
-                potentialKata = [kanas.rootKanasKata[-1][kanas.rootKanasRoma[-1].index(
-                    roma)] for roma in potentialRomajis]
-                katakanaWordMatrix[idxLetter] = potentialKata
+                        potentialHira[idxPotentialRoma] += "っ"
+                        # Checking if the rest of the romaji is authorized to be prefixed by っ
+                        if roma[1:] in kanas.ROMAJI_AUTHORIZING_LITTLE_TSU_PREFIX_LIST:
+                            consolidatedRoma = roma[1:]
+                        else:
+                            raise LittleTsuError(roma[1:])
+                    else:
+                        consolidatedRoma = roma
 
-            idxLetter += 1
+                    potentialHira[idxPotentialRoma] += kanas.rootKanasHira[-1][kanas.rootKanasRoma[-1].index(
+                        consolidatedRoma)]
+                    idxPotentialRoma += 1
+                hiraganaWordMatrix[idxLetter] = potentialHira
 
-        # Compare the hiragana matrix's combinations with correctJapaWordsList
-        returnedStatus, returnedWord = compareEveryCombinationWithTheCorrectList(
-            hiraganaWordMatrix, correctJapaWordsList)
+                # FIXME
+                if config.NOT_IMPLEMENTED_YET == False:
+                    logging.error("NOT_IMPLEMENTED_YET")
+                    # From everyKanasKata, extract the kata translating the potential romaji using the index of everyKanasRoma
+                    potentialKata = [""] * len(potentialRomajis)
+                    idxPotentialRoma = 0
+                    for roma in potentialRomajis:
+                        # Double consonant
+                        if len(roma) > 2 and roma[0] == roma[1]:
+                            logging.debug(
+                                f"[decipherJapaneseWordsFromRomajiTranscription] Kana: double consonant '{roma[0]}'")
 
-        if not returnedStatus:
-            # If there is no result, compare the hiragana matrix's combinations with correctJapaWordsList
+                            potentialKata[idxPotentialRoma] += "っ"
+                            # Checking if the rest of the romaji is authorized to be prefixed by っ
+                            if roma[1:] in kanas.ROMAJI_AUTHORIZING_LITTLE_TSU_PREFIX_LIST:
+                                consolidatedRoma = roma[1:]
+                            else:
+                                raise LittleTsuError(roma[1:])
+                        else:
+                            consolidatedRoma = roma
+
+                        potentialKata[idxPotentialRoma] += kanas.rootKanasKata[-1][kanas.rootKanasRoma[-1].index(
+                            consolidatedRoma)]
+                        idxPotentialRoma += 1
+                    katakanaWordMatrix[idxLetter] = potentialKata
+
+                idxLetter += 1
+
+            # Compare the Hiragana matrix's combinations with correctJapaWordsList
             returnedStatus, returnedWord = compareEveryCombinationWithTheCorrectList(
-                katakanaWordMatrix, correctJapaWordsList)
-        # Found a word in correctJapaWordsList
-        if returnedStatus:
-            decipheredAndCorrect = True
-            rebuiltAndCorrectWord = returnedWord
-        # else: return False, None
+                hiraganaWordMatrix, correctJapaWordsList)
+
+            if not returnedStatus:
+                # FIXME
+                if config.NOT_IMPLEMENTED_YET == False:
+                    # If there is no result, compare the Katakana matrix's combinations with correctJapaWordsList
+                    returnedStatus, returnedWord = compareEveryCombinationWithTheCorrectList(
+                        katakanaWordMatrix, correctJapaWordsList)
+            # Found a word in correctJapaWordsList
+            if returnedStatus:
+                decipheredAndCorrect = True
+                rebuiltAndCorrectWord = returnedWord
+            # else: return False, None
+
+    # Exception when a romaji does not exist
+    except ValueError as err:
+        print(
+            f'There is something wrong with your input: "{romaji}" is NOT a Romaji')
+
+    except LittleTsuError as err:
+        print(
+            f'There is something wrong with your input: "{err}" cannot follow っ')
 
     return decipheredAndCorrect, rebuiltAndCorrectWord
 
