@@ -123,7 +123,7 @@ def splitRomajiWord(romajiWord):
     # TODO to implement
     # FIXME handle long consonant (new kanas? better: if double consonant, consider it's っ+kana)
 
-    romajiList = []
+    romajiList = [romajiWord]
     return romajiList
 
 
