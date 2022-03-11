@@ -61,6 +61,7 @@ def randomFrenchToJapaneseWord():
                     list(words.frenchToJapaWordsDict.keys()), nbWords)
                 print(
                     "- IMPORTANT -\n- SCORE     -\n\nFor each word, enter the correct translation, then press Enter.")
+                # FIXME to change
                 print(
                     "WARNING - For the moment, you must use a Japanese keyboard to answer. This limitation will be fixed soon.")
                 for idxExercise in range(0, nbWords):
@@ -179,7 +180,8 @@ def decipherJapaneseWordsFromRomajiTranscription(inputJapaWord, correctJapaWords
 
     try:
         # In inputJapaWord is not readable, return deciphered=False
-        if inputJapaWord != None and inputJapaWord != "":
+        # If inputJapaWord is made of Kanas, we should not try to decipher it: return False
+        if inputJapaWord != None and inputJapaWord != "" and inputJapaWord.strip(" ")[0] < "z" and inputJapaWord.strip(" ")[0] > "0":
             # Try to decipher romaji inputs
             # Romaji splitted by space
             romajiList = inputJapaWord.split(" ")
