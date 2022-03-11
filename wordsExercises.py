@@ -1,11 +1,10 @@
 # -*-coding:utf-8 -*
 
 import logging
-import re
-import sys
 import random
+import time
 
-# FIXME
+# FIXME Waiting for Katakanas
 import config
 
 import kanas
@@ -60,10 +59,9 @@ def randomFrenchToJapaneseWord():
                 randFrenchWords = random.sample(
                     list(words.frenchToJapaWordsDict.keys()), nbWords)
                 print(
-                    "- IMPORTANT -\n- SCORE     -\n\nFor each word, enter the correct translation, then press Enter.")
-                # FIXME to change
+                    "For each word, enter the correct translation, then press Enter.")
                 print(
-                    "WARNING - For the moment, you must use a Japanese keyboard to answer. This limitation will be fixed soon.")
+                    "\nYou can write directly with a Japanese keyboard, OR you can enter Romaji (romanized Japanese kanas) separated with space.\nExample: e mo ji")
                 for idxExercise in range(0, nbWords):
                     frenchWord = randFrenchWords[idxExercise]
                     inputJapaWord = input(
@@ -78,7 +76,6 @@ def randomFrenchToJapaneseWord():
                             inputJapaWord, correctJapaWordsList)
 
                         if decipheredAndCorrect:
-                            # FIXME behavior to validate
                             print(f"{rebuiltAndCorrectWord}\nCORRECT")
                             score += 1
                         else:
@@ -101,6 +98,7 @@ def randomFrenchToJapaneseWord():
                             incorrectFrenchWords.append(frenchWord)
 
                 # Score
+                time.sleep(1.0)
                 print(
                     f"\nScore: {score}/{nbWords}, {(100.0*score/nbWords):.01f}%\n")
 
@@ -117,15 +115,6 @@ def randomFrenchToJapaneseWord():
             print(f"Wrong choice (must be 1-{frenchWordsNumber})\n")
 
     return True
-
-
-# Split a romaji word without space into the list of each its romaji
-def splitRomajiWord(romajiWord):
-    # TODO to implement
-    # FIXME handle long consonant (new kanas? better: if double consonant, consider it's っ+kana)
-
-    romajiList = [romajiWord]
-    return romajiList
 
 
 # Because one romaji may transcript two different kana, the transcripted kana word is a matrix.
@@ -186,9 +175,6 @@ def decipherJapaneseWordsFromRomajiTranscription(inputJapaWord, correctJapaWords
             # Romaji splitted by space
             romajiList = inputJapaWord.split(" ")
 
-            if len(romajiList) == 1:
-                romajiList = splitRomajiWord(inputJapaWord)
-
             # These 2 variables are not directly strings to support the possibility to have several kana for one romaji (ji, ju).
             # The combinatory will be explored below
             hiraganaWordMatrix = [None] * len(romajiList)
@@ -216,7 +202,7 @@ def decipherJapaneseWordsFromRomajiTranscription(inputJapaWord, correctJapaWords
 
                         potentialHira[idxPotentialRoma] += "っ"
                         # Checking if the rest of the romaji is authorized to be prefixed by っ
-                        if roma[1:] in kanas.ROMAJI_AUTHORIZING_LITTLE_TSU_PREFIX_LIST:
+                        if roma[1] in kanas.ROMAJI_CONSONANTS_AUTHORIZING_LITTLE_TSU_PREFIX_LIST:
                             consolidatedRoma = roma[1:]
                         else:
                             raise LittleTsuError(roma[1:])
@@ -228,7 +214,7 @@ def decipherJapaneseWordsFromRomajiTranscription(inputJapaWord, correctJapaWords
                     idxPotentialRoma += 1
                 hiraganaWordMatrix[idxLetter] = potentialHira
 
-                # FIXME
+                # FIXME Waiting for Katakanas
                 if config.NOT_IMPLEMENTED_YET == False:
                     logging.error("NOT_IMPLEMENTED_YET")
                     # From everyKanasKata, extract the kata translating the potential romaji using the index of everyKanasRoma
@@ -242,7 +228,7 @@ def decipherJapaneseWordsFromRomajiTranscription(inputJapaWord, correctJapaWords
 
                             potentialKata[idxPotentialRoma] += "っ"
                             # Checking if the rest of the romaji is authorized to be prefixed by っ
-                            if roma[1:] in kanas.ROMAJI_AUTHORIZING_LITTLE_TSU_PREFIX_LIST:
+                            if roma[1] in kanas.ROMAJI_CONSONANTS_AUTHORIZING_LITTLE_TSU_PREFIX_LIST:
                                 consolidatedRoma = roma[1:]
                             else:
                                 raise LittleTsuError(roma[1:])
@@ -261,7 +247,7 @@ def decipherJapaneseWordsFromRomajiTranscription(inputJapaWord, correctJapaWords
                 hiraganaWordMatrix, correctJapaWordsList)
 
             if not returnedStatus:
-                # FIXME
+                # FIXME Waiting for Katakanas
                 if config.NOT_IMPLEMENTED_YET == False:
                     # If there is no result, compare the Katakana matrix's combinations with correctJapaWordsList
                     returnedStatus, returnedWord = compareEveryCombinationWithTheCorrectList(

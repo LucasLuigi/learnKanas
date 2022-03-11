@@ -3,6 +3,7 @@
 import logging
 import sys
 import random
+import time
 
 import kanas
 
@@ -12,7 +13,7 @@ def selectKanasExercise():
     selected2 = False
     while not selected2:
         print(
-            "# Select mode\n 1- Random Romaji->Hiragana\n 2- Random Hiragana->Romaji\n 3- Random Romaji->Katakana\n 4- Random Katakana->Romaji\n 0- Return\n")
+            "# Select mode (Romaji are romanized Japanese kanas) \n 1- Random Romaji->Hiragana\n 2- Random Hiragana->Romaji\n 3- Random Romaji->Katakana\n 4- Random Katakana->Romaji\n 0- Return\n")
         choice2 = input("> ")
         selected2 = True
 
@@ -104,7 +105,7 @@ def randomRomajiToKana(alphabet, kanasSubsetIdx):
                 select1 = True
 
                 randKanasRoma = random.sample(usedKanasRoma, nbKanas)
-                print("- IMPORTANT -\n- SCORE     -\n\nFor each step, please draw the written Kana on a sheet besides, then press Enter.\nThen, Enter 1 if you drew correctly. Eventually, press Enter to continue to the next Kana.")
+                print("- IMPORTANT -\n\nFor each step, please draw the written Kana on a sheet besides, then press Enter.\nThen, Enter 1 if you drew correctly. Eventually, press Enter to continue to the next Kana.")
                 for idxExercise in range(0, nbKanas):
                     kanaRoma = randKanasRoma[idxExercise]
                     input(
@@ -119,6 +120,7 @@ def randomRomajiToKana(alphabet, kanasSubsetIdx):
                             kanaRoma)] = kanaRoma
 
                 # Score
+                time.sleep(1.0)
                 print(
                     f"\nScore: {score}/{nbKanas}, {(100.0*score/nbKanas):.01f}%\n")
 
@@ -175,7 +177,7 @@ def randomKanaToRomaji(alphabet, kanasSubsetIdx):
 
                 randKanasJapa = random.sample(usedKanasJapa, nbKanas)
                 print(
-                    "- IMPORTANT -\n- SCORE     -\n\nFor each step, enter the correct Romaji, then press Enter.")
+                    "For each step, enter the correct Romaji, then press Enter.")
                 for idxExercise in range(0, nbKanas):
                     kanaJapa = randKanasJapa[idxExercise]
                     inputKanaRoma = input(
@@ -195,6 +197,7 @@ def randomKanaToRomaji(alphabet, kanasSubsetIdx):
                             kanaJapa)] = kanaJapa
 
                 # Score
+                time.sleep(1.0)
                 print(
                     f"\nScore: {score}/{nbKanas}, {(100.0*score/nbKanas):.01f}%\n")
 

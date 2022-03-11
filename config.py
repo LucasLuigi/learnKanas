@@ -1,5 +1,5 @@
 # -*-coding:utf-8 -*
 
-# FIXME
+# FIXME Waiting for Katakanas
 NOT_IMPLEMENTED_YET = True
 DEBUG_LEVEL = 'INFO'
