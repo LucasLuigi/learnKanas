@@ -106,17 +106,6 @@ def initFlattenedKanas():
     global rootKanasHira
     global rootKanasKata
 
-    # global simpleKanasRoma
-    # global simpleKanasHira
-    # global dakuonRoma
-    # global dakuonHira
-    # global handakuonRoma
-    # global handakuonHira
-    # global combosKanasRoma
-    # global combosKanasHira
-    # global everyKanasRoma
-    # global everyKanasHira
-
     simpleKanasRoma = []
     simpleKanasHira = []
     simpleKanasKata = []

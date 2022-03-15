@@ -272,10 +272,69 @@ def decipherJapaneseWordsFromRomajiTranscription(inputJapaWord, correctJapaWords
 
 # Exercise: Japanese word to French word
 def randomJapaneseToFrenchWord():
-    print("")
-    logging.info(
-        "Japanese to French words exercises not yet implemented, please come back soon!")
-    print("")
+    select1 = False
+    score = 0
+    japaWordsNumber = len(words.japaToFrenchWordsDict)
+    incorrectJapaWords = []
 
-    # FIXME WIP, delete the above lines when implemented
-    return False
+    while not select1:
+        print(
+            f"# How many words for the game? (1-{japaWordsNumber}, enter 0 for all)\n")
+        try:
+            nbWords = int(input("> "))
+            # 0 : select every word
+            if nbWords == 0:
+                nbWords = japaWordsNumber
+            if nbWords >= 1 and nbWords <= japaWordsNumber:
+                select1 = True
+
+                randJapaWords = random.sample(
+                    list(words.japaToFrenchWordsDict.keys()), nbWords)
+                print(
+                    "For each word, enter the correct translation, then press Enter.")
+                for idxExercise in range(0, nbWords):
+                    japaWord = randJapaWords[idxExercise]
+                    inputFrenchWord = input(
+                        f"\n#{idxExercise+1}/{nbWords}\n {japaWord}\n ").strip(" ").lower()
+                    correctFrenchWordsList = words.japaToFrenchWordsDict[japaWord]
+
+                    if inputFrenchWord in correctFrenchWordsList:
+                        print("CORRECT")
+                        score += 1
+                    else:
+                        # Definitely incorrect
+                        incorrectAnswerString = "INCORRECT, it was "
+
+                        if len(correctFrenchWordsList) == 1:
+                            incorrectAnswerString += correctFrenchWordsList[0]
+                        elif len(correctFrenchWordsList) == 2:
+                            for word in correctFrenchWordsList[:-1]:
+                                incorrectAnswerString += word
+                            incorrectAnswerString += " or " + \
+                                correctFrenchWordsList[-1]
+                        else:
+                            for word in correctFrenchWordsList[:-2]:
+                                incorrectAnswerString += word + ", "
+                            incorrectAnswerString += correctFrenchWordsList[-2] + \
+                                " or " + correctFrenchWordsList[-1]
+                        print(incorrectAnswerString)
+                        incorrectJapaWords.append(japaWord)
+
+                # Score
+                time.sleep(1.0)
+                print(
+                    f"\nScore: {score}/{nbWords}, {(100.0*score/nbWords):.01f}%\n")
+
+                if score < nbWords:
+                    print("List of every incorrect translation:")
+                    for incorrectWord in incorrectJapaWords:
+                        print(
+                            f" {incorrectWord} - {words.japaToFrenchWordsDict[incorrectWord]}")
+                    print("")
+
+            else:
+                raise ValueError()
+        except ValueError:
+            print(f"Wrong choice (must be 1-{japaWordsNumber})\n")
+
+    return True
