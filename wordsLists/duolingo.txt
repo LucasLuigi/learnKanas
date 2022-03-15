@@ -1,13 +1,23 @@
 1 いち
+un いち
 2 に
+deux に
 3 さん
+trois さん
 4 よん
+quatre よん
 6 ろく
+six ろく
 7 なな
+sept なな
 7 しち
+sept しち
 8 はち
+huit はち
 9 きゅう
+neuf きゅう
 10000 まん
+dix mille まん
 Rouge あか
 Blanc しろ/しろい
 Bleu あお
@@ -42,11 +52,14 @@ Sushi すし
 Légume やさい
 Teriyaki てりやき
 Fruit くだもの
-Miso (pâte fermentée de soja) みそ
-Tempura (friture) てんぷら
-Natto (graines de soja fermentées) なっとう
+Miso みそ
+Pâte fermentée de soja みそ
+Tempura てんぷら
+Natto なっとう
+Graines de soja fermentées なっとう
 Épicé からい
-Mochi (gâteau de riz gluant) もち
+Mochi もち
+Gâteau de riz gluant もち
 Viande にく
 Œuf たまご
 Baguettes はし
@@ -70,7 +83,8 @@ Livre ほん
 Fil ひも
 Clé かぎ
 Lunettes めがね
-Porter (un vêtement) きる
+Porter きる
+Porter un vêtement きる
 Lire よむ
 Boire のむ
 Vouloir ほしい
@@ -81,7 +95,8 @@ Mince うすい
 Jeune わかい
 Proche ちかい
 Cher たかい
-Qui démange/gratte かゆい
+Qui démange かゆい
+Qui gratte かゆい
 Étrange へん
 Calme しずか
 Animé げんき
@@ -150,14 +165,14 @@ Mère はは
 Grand frère あに
 Grande sœur あね
 Banque ぎんこう
-Professeur (avec respect) せんせい
+Professeur せんせい
 Travail しごと
 Enchanté de faire votre connaissance よろしく/どうぞよろしく/よろしくおねがいします/どうぞよろしくおねがいします
-S'il vous plaît (requête polie) おねがいします
+S'il vous plaît おねがいします
 Désolé ごめん
 Je suis désolé ごめんなさい
 Excuse-moi すみません/どうもすみません
-Je t'en prie (s'il te plaît) どうぞ
+Je t'en prie) どうぞ
 Bye じゃあね
 À plus じゃあね
 À bientôt じゃあね
@@ -196,5 +211,8 @@ Avocat べんごし
 Note de musique おんぷ
 Balade さんぽ
 Santé ! かんぱい
+Santé かんぱい
 Progrès しんぽ
 Parfait かんぺき
+100 ひゃく
+cent ひゃく

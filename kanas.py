@@ -84,6 +84,17 @@ COMBOS_KANAS_HIRA = {
     "R": ["りゃ", "りゅ", "りょ"]
 }
 
+# Romaji naming several hira/katakanas
+AMBIGUOUS_ROMAJI_LIST = ["ji", "ju"]
+AMBIGUOUS_ROMAJI_DICT = [
+    {"ji": ["z_ji", "d_ji"]},
+    {"ju": ["ju", "d_ju"]}
+]
+
+# List of romajis accepted for the rule of double consonant
+ROMAJI_CONSONANTS_AUTHORIZING_LITTLE_TSU_PREFIX_LIST = [
+    "k", "s", "t", "p"]
+
 rootKanasRoma = []
 rootKanasHira = []
 rootKanasKata = []
@@ -94,17 +105,6 @@ def initFlattenedKanas():
     global rootKanasRoma
     global rootKanasHira
     global rootKanasKata
-
-    # global simpleKanasRoma
-    # global simpleKanasHira
-    # global dakuonRoma
-    # global dakuonHira
-    # global handakuonRoma
-    # global handakuonHira
-    # global combosKanasRoma
-    # global combosKanasHira
-    # global everyKanasRoma
-    # global everyKanasHira
 
     simpleKanasRoma = []
     simpleKanasHira = []
