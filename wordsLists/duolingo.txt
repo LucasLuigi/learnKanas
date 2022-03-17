@@ -62,6 +62,7 @@ Mochi もち
 Gâteau de riz gluant もち
 Viande にく
 Œuf たまご
+Oeuf たまご
 Baguettes はし
 Bento (boîte à repas) べんとう
 Alcool おさけ
@@ -106,8 +107,9 @@ Nuageux くもり
 Neige ゆき
 Vent かぜ
 Saison de la pluie つゆ
-Dos せたか
+Dos せなか
 Œil め
+Oeil め
 Oreille みみ
 Visage かお
 Bouche くち
@@ -143,9 +145,9 @@ Et bien/Puis では/じゃ
 Je わたし
 Ceci これ
 Cela それ
-Ça (là-bas) あれ
+Ça あれ
 Maison いえ
-Pièce (de la maison) へや
+Pièce へや
 Sol ゆか
 Jeu しあい
 Emoji えもじ
@@ -164,6 +166,7 @@ Lis ゆり
 Mère はは
 Grand frère あに
 Grande sœur あね
+Grande soeur あね
 Banque ぎんこう
 Professeur せんせい
 Travail しごと
@@ -172,7 +175,8 @@ S'il vous plaît おねがいします
 Désolé ごめん
 Je suis désolé ごめんなさい
 Excuse-moi すみません/どうもすみません
-Je t'en prie) どうぞ
+Excuse moi すみません/どうもすみません
+Je t'en prie どうぞ
 Bye じゃあね
 À plus じゃあね
 À bientôt じゃあね
