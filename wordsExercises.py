@@ -4,9 +4,6 @@ import logging
 import random
 import time
 
-# FIXME Waiting for Katakanas
-import config
-
 import kanas
 import words
 
@@ -214,31 +211,28 @@ def decipherJapaneseWordsFromRomajiTranscription(inputJapaWord, correctJapaWords
                     idxPotentialRoma += 1
                 hiraganaWordMatrix[idxLetter] = potentialHira
 
-                # FIXME Waiting for Katakanas
-                if config.NOT_IMPLEMENTED_YET == False:
-                    logging.error("NOT_IMPLEMENTED_YET")
-                    # From everyKanasKata, extract the kata translating the potential romaji using the index of everyKanasRoma
-                    potentialKata = [""] * len(potentialRomajis)
-                    idxPotentialRoma = 0
-                    for roma in potentialRomajis:
-                        # Double consonant
-                        if len(roma) > 2 and roma[0] == roma[1]:
-                            logging.debug(
-                                f"[decipherJapaneseWordsFromRomajiTranscription] Kana: double consonant '{roma[0]}'")
+                # From everyKanasKata, extract the kata translating the potential romaji using the index of everyKanasRoma
+                potentialKata = [""] * len(potentialRomajis)
+                idxPotentialRoma = 0
+                for roma in potentialRomajis:
+                    # Double consonant
+                    if len(roma) > 2 and roma[0] == roma[1]:
+                        logging.debug(
+                            f"[decipherJapaneseWordsFromRomajiTranscription] Kana: double consonant '{roma[0]}'")
 
-                            potentialKata[idxPotentialRoma] += "っ"
-                            # Checking if the rest of the romaji is authorized to be prefixed by っ
-                            if roma[1] in kanas.ROMAJI_CONSONANTS_AUTHORIZING_LITTLE_TSU_PREFIX_LIST:
-                                consolidatedRoma = roma[1:]
-                            else:
-                                raise LittleTsuError(roma[1:])
+                        potentialKata[idxPotentialRoma] += "っ"
+                        # Checking if the rest of the romaji is authorized to be prefixed by っ
+                        if roma[1] in kanas.ROMAJI_CONSONANTS_AUTHORIZING_LITTLE_TSU_PREFIX_LIST:
+                            consolidatedRoma = roma[1:]
                         else:
-                            consolidatedRoma = roma
+                            raise LittleTsuError(roma[1:])
+                    else:
+                        consolidatedRoma = roma
 
-                        potentialKata[idxPotentialRoma] += kanas.rootKanasKata[-1][kanas.rootKanasRoma[-1].index(
-                            consolidatedRoma)]
-                        idxPotentialRoma += 1
-                    katakanaWordMatrix[idxLetter] = potentialKata
+                    potentialKata[idxPotentialRoma] += kanas.rootKanasKata[-1][kanas.rootKanasRoma[-1].index(
+                        consolidatedRoma)]
+                    idxPotentialRoma += 1
+                katakanaWordMatrix[idxLetter] = potentialKata
 
                 idxLetter += 1
 
@@ -247,11 +241,9 @@ def decipherJapaneseWordsFromRomajiTranscription(inputJapaWord, correctJapaWords
                 hiraganaWordMatrix, correctJapaWordsList)
 
             if not returnedStatus:
-                # FIXME Waiting for Katakanas
-                if config.NOT_IMPLEMENTED_YET == False:
-                    # If there is no result, compare the Katakana matrix's combinations with correctJapaWordsList
-                    returnedStatus, returnedWord = compareEveryCombinationWithTheCorrectList(
-                        katakanaWordMatrix, correctJapaWordsList)
+                # If there is no result, compare the Katakana matrix's combinations with correctJapaWordsList
+                returnedStatus, returnedWord = compareEveryCombinationWithTheCorrectList(
+                    katakanaWordMatrix, correctJapaWordsList)
             # Found a word in correctJapaWordsList
             if returnedStatus:
                 decipheredAndCorrect = True

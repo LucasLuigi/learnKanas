@@ -99,7 +99,7 @@ def initWords():
         "words.initWords: importing file in wordLists/ to fill the list used by the learnKanas words' exercise...")
 
     wordsFiles = [f for f in listdir(
-        WORDS_RELATIVE_PATH) if isfile(join(WORDS_RELATIVE_PATH, f))]
+        WORDS_RELATIVE_PATH) if isfile(join(WORDS_RELATIVE_PATH, f)) and not f.startswith(".")]
 
     for wordsFile in wordsFiles:
         logging.debug(

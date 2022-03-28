@@ -47,9 +47,6 @@ def selectKanasSubset(alphabet, way):
         logging.error(f"selectKanasSubset: wrong options {alphabet} or {way}")
         sys.exit(-1)
 
-    if alphabet == 'Katakana':
-        logging.warning("[!] Katakana not yet implemented, coming soon...")
-
     while not selected:
         print(
             f"# Which {alphabet} do you want to {possibleActions[way]}?\n 1- Simple {alphabet}\n 2- Dakuon\n 3- Handakuon\n 4- Combo {alphabet}\n 5- Every Kanas\n 0- Return\n")

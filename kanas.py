@@ -34,6 +34,20 @@ SIMPLE_KANAS_HIRA = {
     "n": ["ん"]
 }
 
+SIMPLE_KANAS_KATA = {
+    "": ["ア", "イ", "ウ", "エ", "オ"],
+    "K": ["カ", "キ", "ク", "ケ", "コ"],
+    "S": ["サ", "シ", "ス", "セ", "ソ"],
+    "T": ["タ", "チ", "ツ", "テ", "ト"],
+    "N": ["ナ", "ニ", "ヌ", "ネ", "ノ"],
+    "H": ["ハ", "ヒ", "フ", "ヘ", "ホ"],
+    "M": ["マ", "ミ", "ム", "メ", "モ"],
+    "Y": ["ヤ", "ユ", "ヨ"],
+    "R": ["ラ", "リ", "ル", "レ", "ロ"],
+    "W": ["ワ", "ヲ"],
+    "n": ["ン"]
+}
+
 DAKUON_ROMA = {
     "G": ["ga", "gi", "gu", "ge", "go"],
     "Z": ["za", "z_ji", "zu", "ze", "zo"],
@@ -48,12 +62,23 @@ DAKUON_HIRA = {
     "B": ["ば", "び", "ぶ", "べ", "ぼ"]
 }
 
+DAKUON_KATA = {
+    "G": ["ガ", "ギ", "グ", "ゲ", "ゴ"],
+    "Z": ["ザ", "ジ", "ズ", "ゼ", "ゾ"],
+    "D": ["ダ", "ヂ", "ヅ", "デ", "ド"],
+    "B": ["バ", "ビ", "ブ", "ベ", "ボ"]
+}
+
 HANDAKUON_ROMA = {
     "P": ["pa", "pi", "pu", "pe", "po"]
 }
 
 HANDAKUON_HIRA = {
     "P": ["ぱ", "ぴ", "ぷ", "ぺ", "ぽ"]
+}
+
+HANDAKUON_KATA = {
+    "P": ["パ", "ピ", "プ", "ペ", "ポ"]
 }
 
 COMBOS_KANAS_ROMA = {
@@ -82,6 +107,20 @@ COMBOS_KANAS_HIRA = {
     "P": ["ぴゃ", "ぴゅ", "ぴょ"],
     "M": ["みゃ", "みゅ", "みょ"],
     "R": ["りゃ", "りゅ", "りょ"]
+}
+
+COMBOS_KANAS_KATA = {
+    "K": ["キャ", "キュ", "キョ"],
+    "G": ["ギャ", "ギュ", "ギョ"],
+    "S": ["シャ", "シュ", "ショ"],
+    "J": ["ジャ", "ジュ", "ジョ"],
+    "C": ["チャ", "チュ", "チョ"],
+    "N": ["ニャ", "ニュ", "ニョ"],
+    "H": ["ヒャ", "ヒュ", "ヒョ"],
+    "B": ["ビャ", "ビュ", "ビョ"],
+    "P": ["ピャ", "ピュ", "ピョ"],
+    "M": ["ミャ", "ミュ", "ミョ"],
+    "R": ["リャ", "リュ", "リョ"]
 }
 
 # Romaji naming several hira/katakanas
@@ -131,6 +170,10 @@ def initFlattenedKanas():
         for kana in SIMPLE_KANAS_HIRA[line]:
             simpleKanasHira.append(kana)
 
+    for line in SIMPLE_KANAS_KATA:
+        for kana in SIMPLE_KANAS_KATA[line]:
+            simpleKanasKata.append(kana)
+
     # Dakuon ゛
 
     for line in DAKUON_ROMA:
@@ -140,6 +183,10 @@ def initFlattenedKanas():
     for line in DAKUON_HIRA:
         for kana in DAKUON_HIRA[line]:
             dakuonHira.append(kana)
+
+    for line in DAKUON_KATA:
+        for kana in DAKUON_KATA[line]:
+            dakuonKata.append(kana)
 
     # Handakuon ゜
 
@@ -151,6 +198,10 @@ def initFlattenedKanas():
         for kana in HANDAKUON_HIRA[line]:
             handakuonHira.append(kana)
 
+    for line in HANDAKUON_KATA:
+        for kana in HANDAKUON_KATA[line]:
+            handakuonKata.append(kana)
+
     # Combos Kanas
 
     for line in COMBOS_KANAS_ROMA:
@@ -160,6 +211,10 @@ def initFlattenedKanas():
     for line in COMBOS_KANAS_HIRA:
         for kana in COMBOS_KANAS_HIRA[line]:
             combosKanasHira.append(kana)
+
+    for line in COMBOS_KANAS_KATA:
+        for kana in COMBOS_KANAS_KATA[line]:
+            combosKanasKata.append(kana)
 
     # Every Kanas (combining every previous ones)
     everyKanasRoma = simpleKanasRoma + dakuonRoma + handakuonRoma + combosKanasRoma
