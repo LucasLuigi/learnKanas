@@ -170,7 +170,7 @@ Grande soeur あね
 Banque ぎんこう
 Professeur せんせい
 Travail しごと
-Enchanté de faire votre connaissance よろしく/どうぞよろしく/よろしくおねがいします/どうぞよろしくおねがいします
+Heureux de vous rencontrer よろしく/どうぞよろしく/よろしくおねがいします/どうぞよろしくおねがいします/はじめまして
 S'il vous plaît おねがいします
 Désolé ごめん
 Je suis désolé ごめんなさい
@@ -241,3 +241,10 @@ Europe ヨーロッパ
 Docteur いしゃ
 Citrouille かぼちゃ
 Client きゃく
+Glace アイス
+Carpe コイ
+Je suis Maria マリアです
+Royaume-Uni イギリス
+Royaume Uni イギリス
+Grande-Bretagne イギリス
+Grande Bretagne イギリス
