@@ -248,3 +248,12 @@ Royaume-Uni イギリス
 Royaume Uni イギリス
 Grande-Bretagne イギリス
 Grande Bretagne イギリス
+Taille こし
+Automne あき
+Yen えん
+Coeur コア
+Cœur コア
+Italie イタリア
+Erika エリカ
+Russie ロシア
+Asie アジア
