@@ -16,6 +16,8 @@ sept しち
 huit はち
 9 きゅう
 neuf きゅう
+10 じゅう
+dix じゅう
 10000 まん
 dix mille まん
 Rouge あか
@@ -257,3 +259,5 @@ Italie イタリア
 Erika エリカ
 Russie ロシア
 Asie アジア
+À で
+En で
