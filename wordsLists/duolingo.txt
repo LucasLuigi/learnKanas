@@ -261,3 +261,5 @@ Russie ロシア
 Asie アジア
 À で
 En で
+Erreur ミス
+Chihuahua チワワ
