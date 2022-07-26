@@ -263,3 +263,24 @@ Asie アジア
 En で
 Erreur ミス
 Chihuahua チワワ
+Cerf シカ
+Chanson de fin エンディング
+Air エア
+Ride シワ
+Aigle ワシ
+Allemagne ドイツ
+Espagne スペイン
+Irlande アイルランド
+Inde インドド
+Canada カナダ
+Paris パリ
+Brésil ブラジル
+Pays-Bas オランダ
+Égypte エジプト
+Grèce ギリシャ
+Berlin ベルリン
+Portugal ポルトガル
+Pologne ポ－ランド
+Norvège ノルウィ－
+Népal ネパ－ル
+Vietnam ベトナム
