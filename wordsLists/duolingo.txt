@@ -284,3 +284,7 @@ Pologne ポ－ランド
 Norvège ノルウィ－
 Népal ネパ－ル
 Vietnam ベトナム
+Eau みず
+Riz ごはん
+Docteur いしゃ
+Où est どこですか
