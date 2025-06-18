@@ -288,3 +288,6 @@ Eau みず
 Riz ごはん
 Docteur いしゃ
 Où est どこですか
+Temple てら
+Gare えき
+Là そこ
