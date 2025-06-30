@@ -291,3 +291,12 @@ Où est どこですか
 Temple てら
 Gare えき
 Là そこ
+Hôtel ホテル
+Épicerie コンビニ
+Station de bus バスとい
+Parapluie かさ
+Chapeau ぼうし
+Mon わたしの
+Manteau コート
+Ces これら
+Ces それら
