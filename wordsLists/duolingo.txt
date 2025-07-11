@@ -300,3 +300,5 @@ Mon わたしの
 Manteau コート
 Ces これら
 Ces それら
+Ce この
+Brillant あかるい
